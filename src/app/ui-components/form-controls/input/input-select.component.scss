@@ -1,0 +1,190 @@
+.ui-select {
+  @apply flex flex-col gap-1;
+
+  .select-container {
+    @apply relative;
+
+    .select-wrapper {
+      @apply flex items-center gap-2 w-full px-3 py-2 border rounded-lg bg-white
+             cursor-pointer transition-all duration-200;
+
+      &.disabled {
+        @apply bg-gray-100 text-gray-400 cursor-not-allowed;
+      }
+
+      .selected-tags {
+        @apply flex flex-wrap gap-1 flex-grow min-w-0;
+
+        .tag {
+          @apply flex items-center gap-1 px-2 py-1 bg-gray-100 rounded-md text-sm;
+
+          .remove-tag {
+            @apply flex items-center justify-center w-4 h-4 rounded-full
+                   text-gray-400 hover:text-gray-600 hover:bg-gray-200
+                   transition-colors duration-200;
+          }
+        }
+      }
+
+      .selected-value {
+        @apply flex-grow truncate;
+
+        &.placeholder {
+          @apply text-gray-400;
+        }
+      }
+
+      .clear-button {
+        @apply flex items-center justify-center w-6 h-6 rounded-full
+               text-gray-400 hover:text-gray-600 hover:bg-gray-100
+               transition-colors duration-200;
+      }
+
+      .dropdown-arrow {
+        @apply w-5 h-5 text-gray-400 transition-transform duration-200;
+
+        &.expanded {
+          @apply transform rotate-180;
+        }
+      }
+    }
+
+    .select-dropdown {
+      @apply absolute z-50 w-full mt-1 py-1 bg-white border rounded-lg shadow-lg
+             max-h-60 overflow-y-auto;
+
+      .search-container {
+        @apply px-3 py-2 border-b;
+
+        .search-input {
+          @apply w-full px-2 py-1 text-sm border rounded
+                 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500;
+        }
+      }
+
+      .options-container {
+        @apply py-1;
+
+        .option-group {
+          @apply px-3 py-1 text-sm font-semibold text-gray-500 bg-gray-50;
+        }
+
+        .option {
+          @apply flex items-center px-3 py-2 cursor-pointer
+                 hover:bg-gray-100 transition-colors duration-200;
+
+          &.selected {
+            @apply bg-primary-50 text-primary-700;
+
+            .checkbox input {
+              @apply border-primary-500 bg-primary-500;
+            }
+          }
+
+          &.active {
+            @apply bg-gray-100;
+          }
+
+          &.disabled {
+            @apply text-gray-400 bg-gray-50 cursor-not-allowed;
+          }
+
+          .option-content {
+            @apply flex items-center gap-2 w-full;
+
+            .checkbox {
+              @apply flex items-center justify-center w-4 h-4;
+
+              input {
+                @apply w-4 h-4 border rounded transition-colors duration-200;
+              }
+            }
+          }
+        }
+      }
+
+      .no-options {
+        @apply px-3 py-2 text-sm text-gray-500 text-center;
+      }
+    }
+  }
+
+  .select-label {
+    @apply text-sm font-medium text-gray-700;
+
+    &.required::after {
+      content: '*';
+      @apply ml-1 text-error-500;
+    }
+  }
+
+  .select-hint {
+    @apply text-sm text-gray-500;
+  }
+
+  .select-error {
+    @apply text-sm text-error-500;
+  }
+}
+
+// Size variants
+:host-context(.ui-size-sm) .ui-select {
+  .select-container .select-wrapper {
+    @apply px-2 py-1.5 text-sm;
+  }
+}
+
+:host-context(.ui-size-lg) .ui-select {
+  .select-container .select-wrapper {
+    @apply px-4 py-2.5 text-lg;
+  }
+}
+
+// Theme variants
+:host-context(.ui-theme-primary) .ui-select {
+  .select-container {
+    .select-wrapper:hover:not(.disabled) {
+      @apply border-primary-300;
+    }
+
+    &.focused .select-wrapper:not(.disabled) {
+      @apply border-primary-500 ring-2 ring-primary-200;
+    }
+  }
+}
+
+:host-context(.ui-theme-secondary) .ui-select {
+  .select-container {
+    .select-wrapper:hover:not(.disabled) {
+      @apply border-secondary-300;
+    }
+
+    &.focused .select-wrapper:not(.disabled) {
+      @apply border-secondary-500 ring-2 ring-secondary-200;
+    }
+  }
+}
+
+:host-context(.ui-theme-success) .ui-select {
+  .select-container {
+    .select-wrapper:hover:not(.disabled) {
+      @apply border-success-300;
+    }
+
+    &.focused .select-wrapper:not(.disabled) {
+      @apply border-success-500 ring-2 ring-success-200;
+    }
+  }
+}
+
+:host-context(.ui-theme-error) .ui-select {
+  .select-container {
+    .select-wrapper:hover:not(.disabled) {
+      @apply border-error-300;
+    }
+
+    &.focused .select-wrapper:not(.disabled) {
+      @apply border-error-500 ring-2 ring-error-200;
+    }
+  }
+} 

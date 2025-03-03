@@ -1,0 +1,97 @@
+<div class="ui-cascade-select" [class.focused]="focused" [class.expanded]="expanded">
+  <label *ngIf="label" [for]="id" class="ui-cascade-select-label">
+    {{ label }}
+    <span *ngIf="required" class="required-indicator" aria-hidden="true">*</span>
+  </label>
+
+  <div class="ui-cascade-select-wrapper">
+    <!-- Selected Value Display -->
+    <div class="selected-display"
+         [class.placeholder]="!selectedPath.length"
+         [class.disabled]="disabled"
+         (click)="toggleDropdown()"
+         role="combobox"
+         [attr.aria-expanded]="expanded"
+         [attr.aria-label]="label || placeholder"
+         [attr.tabindex]="disabled ? -1 : 0">
+      <ng-container *ngIf="selectedPath.length; else placeholderTpl">
+        <ng-container *ngTemplateOutlet="selectedPathTemplate || defaultSelectedPath">
+        </ng-container>
+      </ng-container>
+      <ng-template #placeholderTpl>
+        {{ placeholder }}
+      </ng-template>
+
+      <!-- Clear Button -->
+      <button *ngIf="clearable && selectedPath.length && !disabled"
+              type="button"
+              class="clear-button"
+              (click)="clearSelection(); $event.stopPropagation()"
+              [attr.aria-label]="'Clear selection'">
+        <span aria-hidden="true">×</span>
+      </button>
+
+      <!-- Dropdown Arrow -->
+      <div class="dropdown-arrow" [class.expanded]="expanded">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Cascade Dropdown -->
+    <div *ngIf="expanded" 
+         class="cascade-dropdown"
+         role="listbox"
+         [attr.aria-label]="'Cascade options'"
+         (click)="$event.stopPropagation()">
+      <!-- Levels Container -->
+      <div class="levels-container">
+        <div *ngFor="let level of levels; let i = index" 
+             class="level"
+             role="group"
+             [attr.aria-label]="'Level ' + (i + 1)">
+          <!-- Loading State -->
+          <div *ngIf="level.loading" class="loading-state">
+            {{ loadingText }}
+          </div>
+
+          <!-- No Options State -->
+          <div *ngIf="!level.loading && !level.options.length" class="no-options-state">
+            {{ noOptionsText }}
+          </div>
+
+          <!-- Options List -->
+          <div *ngFor="let option of level.options; trackBy: trackByValue"
+               class="option"
+               [class.selected]="option === level.selectedOption"
+               [class.has-children]="option.children?.length || asyncChildOptions"
+               role="option"
+               [attr.aria-selected]="option === level.selectedOption"
+               (click)="onOptionSelect(option, i)">
+            <ng-container *ngTemplateOutlet="optionTemplate || defaultOption; context: { $implicit: option }">
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Default Selected Path Template -->
+<ng-template #defaultSelectedPath>
+  {{ getDisplayValue() }}
+</ng-template>
+
+<!-- Default Option Template -->
+<ng-template #defaultOption let-option>
+  <span class="option-label">{{ option.label }}</span>
+  <svg *ngIf="option.children?.length || asyncChildOptions" 
+       class="chevron-right"
+       xmlns="http://www.w3.org/2000/svg" 
+       viewBox="0 0 20 20" 
+       fill="currentColor" 
+       aria-hidden="true">
+    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+  </svg>
+</ng-template> 

@@ -1,0 +1,21 @@
+<div class="ui-input-mask" [class.focused]="focused">
+  <label *ngIf="label" [for]="id" class="ui-input-label">{{ label }}</label>
+  <div class="ui-input-wrapper">
+    <input
+      [id]="id"
+      type="text"
+      [value]="displayValue"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      [attr.autocomplete]="autoComplete"
+      [attr.aria-label]="label || placeholder"
+      (input)="onInput($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      [attr.title]="showMaskOnHover ? mask : null"
+    />
+    <div class="ui-input-mask-hint" *ngIf="mask && showMaskOnHover" [class.visible]="focused">
+      {{ mask }}
+    </div>
+  </div>
+</div> 

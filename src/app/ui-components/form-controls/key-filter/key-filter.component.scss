@@ -1,0 +1,112 @@
+.ui-key-filter {
+  @apply flex flex-col gap-1;
+
+  .ui-key-filter-label {
+    @apply text-sm font-medium text-gray-700;
+  }
+
+  .ui-key-filter-wrapper {
+    @apply relative;
+
+    input {
+      @apply w-full px-3 py-2 border rounded-lg text-base
+             focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500
+             disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed
+             transition-all duration-200;
+
+      &::placeholder {
+        @apply text-gray-400;
+      }
+    }
+
+    .ui-key-filter-hint {
+      @apply mt-1 text-sm text-error-600 absolute -bottom-6 left-0;
+    }
+  }
+
+  &.focused {
+    .ui-key-filter-wrapper input {
+      @apply border-primary-300;
+    }
+  }
+
+  &.invalid {
+    .ui-key-filter-wrapper input {
+      @apply border-error-300 focus:ring-error-500 focus:border-error-500;
+    }
+
+    .ui-key-filter-label {
+      @apply text-error-600;
+    }
+  }
+}
+
+// Size variants
+:host-context(.ui-size-sm) .ui-key-filter {
+  .ui-key-filter-label {
+    @apply text-xs;
+  }
+
+  .ui-key-filter-wrapper {
+    input {
+      @apply px-2 py-1.5 text-sm;
+    }
+
+    .ui-key-filter-hint {
+      @apply text-xs;
+    }
+  }
+}
+
+:host-context(.ui-size-lg) .ui-key-filter {
+  .ui-key-filter-label {
+    @apply text-base;
+  }
+
+  .ui-key-filter-wrapper {
+    input {
+      @apply px-4 py-2.5 text-lg;
+    }
+
+    .ui-key-filter-hint {
+      @apply text-base;
+    }
+  }
+}
+
+// Theme variants
+:host-context(.ui-theme-primary) .ui-key-filter {
+  .ui-key-filter-wrapper input {
+    @apply focus:ring-primary-500 focus:border-primary-500;
+    &:hover:not(:disabled) {
+      @apply border-primary-300;
+    }
+  }
+}
+
+:host-context(.ui-theme-secondary) .ui-key-filter {
+  .ui-key-filter-wrapper input {
+    @apply focus:ring-secondary-500 focus:border-secondary-500;
+    &:hover:not(:disabled) {
+      @apply border-secondary-300;
+    }
+  }
+}
+
+:host-context(.ui-theme-success) .ui-key-filter {
+  .ui-key-filter-wrapper input {
+    @apply focus:ring-success-500 focus:border-success-500;
+    &:hover:not(:disabled) {
+      @apply border-success-300;
+    }
+  }
+}
+
+:host-context(.ui-theme-error) .ui-key-filter {
+  .ui-key-filter-wrapper input {
+    @apply focus:ring-error-500 focus:border-error-500;
+    &:hover:not(:disabled) {
+      @apply border-error-300;
+    }
+  }
+} 

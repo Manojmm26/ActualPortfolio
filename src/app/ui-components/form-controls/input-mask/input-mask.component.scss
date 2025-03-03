@@ -1,0 +1,94 @@
+.ui-input-mask {
+  @apply flex flex-col gap-1;
+
+  .ui-input-label {
+    @apply text-sm font-medium text-gray-700;
+  }
+
+  .ui-input-wrapper {
+    @apply relative;
+
+    input {
+      @apply w-full px-3 py-2 border rounded-lg text-base
+             focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500
+             disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed
+             transition-all duration-200;
+
+      &::placeholder {
+        @apply text-gray-400;
+      }
+    }
+
+    .ui-input-mask-hint {
+      @apply absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm opacity-0 transition-opacity duration-200;
+
+      &.visible {
+        @apply opacity-50;
+      }
+    }
+  }
+
+  &.focused {
+    .ui-input-wrapper input {
+      @apply border-primary-300;
+    }
+  }
+}
+
+// Size variants
+:host-context(.ui-size-sm) .ui-input-mask {
+  .ui-input-label {
+    @apply text-xs;
+  }
+
+  .ui-input-wrapper input {
+    @apply px-2 py-1.5 text-sm;
+  }
+}
+
+:host-context(.ui-size-lg) .ui-input-mask {
+  .ui-input-label {
+    @apply text-base;
+  }
+
+  .ui-input-wrapper input {
+    @apply px-4 py-2.5 text-lg;
+  }
+}
+
+// Theme variants
+:host-context(.ui-theme-primary) .ui-input-mask {
+  .ui-input-wrapper input {
+    @apply focus:ring-primary-500 focus:border-primary-500;
+    &:hover:not(:disabled) {
+      @apply border-primary-300;
+    }
+  }
+}
+
+:host-context(.ui-theme-secondary) .ui-input-mask {
+  .ui-input-wrapper input {
+    @apply focus:ring-secondary-500 focus:border-secondary-500;
+    &:hover:not(:disabled) {
+      @apply border-secondary-300;
+    }
+  }
+}
+
+:host-context(.ui-theme-success) .ui-input-mask {
+  .ui-input-wrapper input {
+    @apply focus:ring-success-500 focus:border-success-500;
+    &:hover:not(:disabled) {
+      @apply border-success-300;
+    }
+  }
+}
+
+:host-context(.ui-theme-error) .ui-input-mask {
+  .ui-input-wrapper input {
+    @apply focus:ring-error-500 focus:border-error-500;
+    &:hover:not(:disabled) {
+      @apply border-error-300;
+    }
+  }
+} 

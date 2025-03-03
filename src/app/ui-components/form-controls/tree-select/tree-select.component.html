@@ -1,0 +1,134 @@
+<div class="ui-tree-select" [class.focused]="focused" [class.expanded]="expanded">
+  <label *ngIf="label" [for]="id" class="ui-tree-select-label">
+    {{ label }}
+    <span *ngIf="required" class="required-indicator" aria-hidden="true">*</span>
+  </label>
+
+  <div class="ui-tree-select-wrapper">
+    <!-- Selected Value Display -->
+    <div class="selected-display"
+         [class.placeholder]="!selectedNodes.length"
+         [class.disabled]="disabled"
+         (click)="toggleDropdown()"
+         role="combobox"
+         [attr.aria-expanded]="expanded"
+         [attr.aria-label]="label || placeholder"
+         [attr.tabindex]="disabled ? -1 : 0">
+      <ng-container *ngIf="selectedNodes.length; else placeholderTpl">
+        <ng-container *ngTemplateOutlet="selectedNodeTemplate || defaultSelectedNode">
+        </ng-container>
+      </ng-container>
+      <ng-template #placeholderTpl>
+        {{ placeholder }}
+      </ng-template>
+
+      <!-- Clear Button -->
+      <button *ngIf="clearable && selectedNodes.length && !disabled"
+              type="button"
+              class="clear-button"
+              (click)="clearSelection(); $event.stopPropagation()"
+              [attr.aria-label]="'Clear selection'">
+        <span aria-hidden="true">×</span>
+      </button>
+
+      <!-- Dropdown Arrow -->
+      <div class="dropdown-arrow" [class.expanded]="expanded">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Tree Dropdown -->
+    <div *ngIf="expanded" 
+         class="tree-dropdown"
+         role="tree"
+         [attr.aria-label]="'Tree options'"
+         (click)="$event.stopPropagation()">
+      <!-- Filter Input -->
+      <div *ngIf="filter" class="filter-container">
+        <input
+          type="text"
+          class="filter-input"
+          [placeholder]="filterPlaceholder"
+          [value]="filterValue"
+          (input)="onFilterChange($event)"
+          (click)="$event.stopPropagation()"
+        />
+      </div>
+
+      <!-- Tree Content -->
+      <div class="tree-content">
+        <ng-container *ngTemplateOutlet="treeNodes; context: { $implicit: filteredNodes }">
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tree Nodes Template -->
+<ng-template #treeNodes let-nodes>
+  <div *ngIf="!nodes.length" class="no-nodes">
+    {{ noNodesText }}
+  </div>
+  <div *ngFor="let node of nodes; trackBy: trackByValue" 
+       class="tree-node"
+       [class.expanded]="node.expanded"
+       [class.selected]="isSelected(node)"
+       [class.disabled]="node.disabled"
+       role="treeitem"
+       [attr.aria-expanded]="node.children ? node.expanded : undefined"
+       [attr.aria-selected]="isSelected(node)"
+       [attr.aria-disabled]="node.disabled">
+    <!-- Node Content -->
+    <div class="node-content">
+      <!-- Expand Toggle -->
+      <div *ngIf="node.children?.length || asyncChildNodes"
+           class="expand-toggle"
+           [class.loading]="node.loading"
+           (click)="toggleNode(node, $event)"
+           role="button"
+           [attr.aria-label]="node.expanded ? 'Collapse' : 'Expand'">
+        <svg *ngIf="!node.loading" class="expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+        <div *ngIf="node.loading" class="loading-spinner" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+
+      <!-- Node Template -->
+      <div class="node-template" (click)="selectNode(node, $event)">
+        <ng-container *ngTemplateOutlet="nodeTemplate || defaultNode; context: { $implicit: node }">
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Child Nodes -->
+    <div *ngIf="node.expanded && node.children?.length" 
+         class="child-nodes"
+         role="group">
+      <ng-container *ngTemplateOutlet="treeNodes; context: { $implicit: node.children }">
+      </ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Default Selected Node Template -->
+<ng-template #defaultSelectedNode>
+  {{ getDisplayValue() }}
+</ng-template>
+
+<!-- Default Node Template -->
+<ng-template #defaultNode let-node>
+  <div class="default-node">
+    <div class="checkbox" *ngIf="multiple">
+      <input type="checkbox" 
+             [checked]="isSelected(node)"
+             [disabled]="node.disabled"
+             (click)="$event.stopPropagation()"
+             (change)="selectNode(node, $event)" />
+    </div>
+    <span class="node-label">{{ node.label }}</span>
+  </div>
+</ng-template> 

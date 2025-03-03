@@ -1,0 +1,231 @@
+.ui-input-number {
+  @apply relative w-full;
+
+  .input-container {
+    @apply relative flex flex-col;
+
+    &.focused {
+      .input-label {
+        @apply text-primary-500 transform -translate-y-5 scale-75;
+      }
+
+      .input-wrapper {
+        @apply ring-1 ring-primary-500;
+
+        .input-field {
+          @apply border-primary-500;
+        }
+      }
+    }
+
+    &.filled {
+      .input-label {
+        @apply transform -translate-y-5 scale-75;
+      }
+    }
+
+    .input-wrapper {
+      @apply relative flex items-stretch
+             rounded-md
+             transition-all duration-200;
+
+      .spinner-button {
+        @apply flex items-center justify-center
+               w-10 px-2
+               text-gray-600
+               border border-gray-300
+               bg-gray-50
+               hover:bg-gray-100
+               active:bg-gray-200
+               disabled:bg-gray-100
+               disabled:text-gray-400
+               disabled:cursor-not-allowed
+               transition-colors duration-200;
+
+        &.decrease {
+          @apply rounded-l-md border-r-0;
+        }
+
+        &.increase {
+          @apply rounded-r-md border-l-0;
+        }
+      }
+
+      .input-field {
+        @apply w-full px-3 py-2 text-base
+               border
+               bg-white text-gray-900
+               transition-all duration-200
+               focus:outline-none;
+
+        &:disabled {
+          @apply bg-gray-100 cursor-not-allowed;
+        }
+
+        // Hide number input spinners
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        &[type=number] {
+          -moz-appearance: textfield;
+        }
+      }
+    }
+
+    .input-label {
+      @apply absolute left-3 top-2
+             text-gray-600
+             transition-all duration-200
+             origin-[0];
+
+      &.required::after {
+        content: '*';
+        @apply ml-1 text-error-500;
+      }
+    }
+
+    .affixes {
+      @apply absolute inset-y-0 flex items-center pointer-events-none;
+
+      .prefix {
+        @apply pl-3 text-gray-500;
+      }
+
+      .suffix {
+        @apply pr-3 text-gray-500;
+      }
+    }
+
+    .input-hint {
+      @apply mt-1 text-sm text-gray-500;
+    }
+
+    .input-error {
+      @apply mt-1 text-sm text-error-500;
+    }
+  }
+
+  &.floating {
+    .input-container {
+      .input-wrapper .input-field {
+        @apply pt-6 pb-2;
+      }
+
+      .input-label {
+        @apply top-5;
+      }
+
+      &.focused,
+      &.filled {
+        .input-label {
+          @apply top-2;
+        }
+      }
+    }
+  }
+}
+
+// Size variants
+:host-context(.ui-size-sm) .ui-input-number {
+  .input-wrapper {
+    .spinner-button {
+      @apply w-8;
+    }
+
+    .input-field {
+      @apply px-2 py-1.5 text-sm;
+    }
+  }
+
+  &.floating .input-container {
+    .input-wrapper .input-field {
+      @apply pt-5 pb-1.5;
+    }
+  }
+}
+
+:host-context(.ui-size-lg) .ui-input-number {
+  .input-wrapper {
+    .spinner-button {
+      @apply w-12;
+    }
+
+    .input-field {
+      @apply px-4 py-3 text-lg;
+    }
+  }
+
+  &.floating .input-container {
+    .input-wrapper .input-field {
+      @apply pt-7 pb-3;
+    }
+  }
+}
+
+// Theme variants
+:host-context(.ui-theme-primary) .ui-input-number {
+  .input-container.focused {
+    .input-label {
+      @apply text-primary-500;
+    }
+
+    .input-wrapper {
+      @apply ring-primary-500;
+
+      .input-field {
+        @apply border-primary-500;
+      }
+    }
+  }
+}
+
+:host-context(.ui-theme-secondary) .ui-input-number {
+  .input-container.focused {
+    .input-label {
+      @apply text-secondary-500;
+    }
+
+    .input-wrapper {
+      @apply ring-secondary-500;
+
+      .input-field {
+        @apply border-secondary-500;
+      }
+    }
+  }
+}
+
+:host-context(.ui-theme-success) .ui-input-number {
+  .input-container.focused {
+    .input-label {
+      @apply text-success-500;
+    }
+
+    .input-wrapper {
+      @apply ring-success-500;
+
+      .input-field {
+        @apply border-success-500;
+      }
+    }
+  }
+}
+
+:host-context(.ui-theme-error) .ui-input-number {
+  .input-container.focused {
+    .input-label {
+      @apply text-error-500;
+    }
+
+    .input-wrapper {
+      @apply ring-error-500;
+
+      .input-field {
+        @apply border-error-500;
+      }
+    }
+  }
+} 

@@ -1,0 +1,170 @@
+<div class="ui-color-picker" [class.focused]="focused">
+  <label *ngIf="label" class="ui-color-picker-label">
+    {{ label }}
+    <span *ngIf="required" class="required-indicator" aria-hidden="true">*</span>
+  </label>
+
+  <div class="color-picker-container">
+    <!-- Selected Color Display -->
+    <button
+      type="button"
+      class="selected-color"
+      [class.disabled]="disabled"
+      [style.background-color]="value.hex"
+      [attr.aria-label]="'Selected color: ' + value.hex"
+      [attr.aria-expanded]="expanded"
+      [attr.aria-disabled]="disabled"
+      (click)="toggleDropdown()">
+      <span class="color-preview"></span>
+      <span class="color-value">{{ value.hex }}</span>
+      <span class="dropdown-arrow" [class.expanded]="expanded">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </span>
+    </button>
+
+    <!-- Color Picker Dropdown -->
+    <div *ngIf="expanded" class="color-picker-dropdown" (click)="$event.stopPropagation()">
+      <!-- Color Format Selector -->
+      <div class="format-selector">
+        <button
+          type="button"
+          class="format-button"
+          [class.active]="selectedFormat === 'hex'"
+          (click)="onFormatChange('hex')">
+          HEX
+        </button>
+        <button
+          type="button"
+          class="format-button"
+          [class.active]="selectedFormat === 'rgb'"
+          (click)="onFormatChange('rgb')">
+          RGB
+        </button>
+        <button
+          type="button"
+          class="format-button"
+          [class.active]="selectedFormat === 'hsl'"
+          (click)="onFormatChange('hsl')">
+          HSL
+        </button>
+      </div>
+
+      <!-- Color Sliders -->
+      <div class="color-sliders">
+        <!-- Hue Slider -->
+        <div class="slider-group">
+          <label class="slider-label">Hue</label>
+          <input
+            type="range"
+            min="0"
+            max="360"
+            [value]="hueValue"
+            (input)="onHueChange($event)"
+            class="hue-slider"
+            [attr.aria-label]="'Hue: ' + hueValue">
+        </div>
+
+        <!-- Saturation Slider -->
+        <div class="slider-group">
+          <label class="slider-label">Saturation</label>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            [value]="saturationValue"
+            (input)="onSaturationChange($event)"
+            class="saturation-slider"
+            [attr.aria-label]="'Saturation: ' + saturationValue + '%'">
+        </div>
+
+        <!-- Lightness Slider -->
+        <div class="slider-group">
+          <label class="slider-label">Lightness</label>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            [value]="lightnessValue"
+            (input)="onLightnessChange($event)"
+            class="lightness-slider"
+            [attr.aria-label]="'Lightness: ' + lightnessValue + '%'">
+        </div>
+
+        <!-- Alpha Slider (if enabled) -->
+        <div class="slider-group" *ngIf="showAlpha">
+          <label class="slider-label">Opacity</label>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            [value]="alphaValue"
+            (input)="onAlphaChange($event)"
+            class="alpha-slider"
+            [attr.aria-label]="'Opacity: ' + alphaValue + '%'">
+        </div>
+      </div>
+
+      <!-- Color Input -->
+      <div class="color-input" *ngIf="showInput">
+        <ng-container [ngSwitch]="selectedFormat">
+          <!-- HEX Input -->
+          <input *ngSwitchCase="'hex'"
+                 type="text"
+                 [value]="value.hex"
+                 (input)="onHexInput($event)"
+                 pattern="^#[0-9A-Fa-f]{6}$"
+                 placeholder="#000000">
+
+          <!-- RGB Input -->
+          <div *ngSwitchCase="'rgb'" class="rgb-inputs">
+            <input type="number" min="0" max="255" [value]="value.rgb.r"
+                   (input)="onRgbInput($event, 'r')">
+            <input type="number" min="0" max="255" [value]="value.rgb.g"
+                   (input)="onRgbInput($event, 'g')">
+            <input type="number" min="0" max="255" [value]="value.rgb.b"
+                   (input)="onRgbInput($event, 'b')">
+          </div>
+
+          <!-- HSL Input -->
+          <div *ngSwitchCase="'hsl'" class="hsl-inputs">
+            <input type="number" min="0" max="360" [value]="value.hsl.h"
+                   (input)="onHslInput($event, 'h')">
+            <input type="number" min="0" max="100" [value]="value.hsl.s"
+                   (input)="onHslInput($event, 's')">
+            <input type="number" min="0" max="100" [value]="value.hsl.l"
+                   (input)="onHslInput($event, 'l')">
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- Preset Colors -->
+      <div class="preset-colors">
+        <button
+          *ngFor="let color of presetColors"
+          type="button"
+          class="preset-color"
+          [style.background-color]="color"
+          [attr.aria-label]="'Select color: ' + color"
+          (click)="onColorSelect(color)">
+        </button>
+      </div>
+
+      <!-- Recent Colors -->
+      <div class="recent-colors" *ngIf="showRecent && recentColors.length">
+        <div class="section-label">Recent Colors</div>
+        <div class="recent-colors-grid">
+          <button
+            *ngFor="let color of recentColors"
+            type="button"
+            class="recent-color"
+            [style.background-color]="color.hex"
+            [attr.aria-label]="'Select recent color: ' + color.hex"
+            (click)="onColorSelect(color.hex)">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

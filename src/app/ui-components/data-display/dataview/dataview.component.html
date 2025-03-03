@@ -1,0 +1,86 @@
+<div class="dataview-container">
+  <!-- Header -->
+  <div class="dataview-header">
+    <!-- Layout Options -->
+    <div class="layout-options">
+      <button
+        class="layout-button"
+        [class.active]="layout === 'grid'"
+        (click)="onLayoutChange('grid')"
+      >
+        <i class="fas fa-th-large"></i>
+      </button>
+      <button
+        class="layout-button"
+        [class.active]="layout === 'list'"
+        (click)="onLayoutChange('list')"
+      >
+        <i class="fas fa-list"></i>
+      </button>
+    </div>
+
+    <!-- Sort Options -->
+    <div class="sort-options" *ngIf="sortFields.length">
+      <select
+        [(ngModel)]="currentSort.field"
+        (ngModelChange)="onSortFieldChange($event)"
+      >
+        <option value="">Sort By</option>
+        <option
+          *ngFor="let field of sortFields"
+          [value]="field.field"
+        >
+          {{ field.header }}
+        </option>
+      </select>
+      <button
+        class="sort-order"
+        (click)="toggleSortOrder()"
+        [class.desc]="currentSort.order === 'desc'"
+      >
+        <i class="fas fa-sort"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div
+    class="dataview-content"
+    [class.grid]="layout === 'grid'"
+    [class.list]="layout === 'list'"
+  >
+    <div
+      *ngFor="let item of sortedItems"
+      class="dataview-item"
+      [class.grid-item]="layout === 'grid'"
+      [class.list-item]="layout === 'list'"
+    >
+      <!-- Item Content -->
+      <div class="item-image">
+        <img [src]="item.image" [alt]="item.name" />
+      </div>
+      <div class="item-content">
+        <h3 class="item-name">{{ item.name }}</h3>
+        <p class="item-description">{{ item.description }}</p>
+        <div class="item-details">
+          <div class="item-price">{{ item.price | number:'1.2-2' }}</div>
+          <div class="item-rating">
+            <span class="stars">
+              <i
+                *ngFor="let star of [1,2,3,4,5]"
+                class="fas"
+                [class.fa-star]="star <= item.rating"
+                [class.fa-star-half-alt]="star - 0.5 === item.rating"
+                [class.fa-star-o]="star > item.rating"
+              ></i>
+            </span>
+            <span class="rating-value">{{ item.rating.toFixed(1) }}</span>
+          </div>
+          <div class="item-stock" [class.low-stock]="item.stock < 10">
+            {{ item.stock }} in stock
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

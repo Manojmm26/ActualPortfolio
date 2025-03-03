@@ -1,0 +1,45 @@
+<div class="ui-timeline" [class.flex]="layout === 'horizontal'" [class.flex-col]="layout === 'vertical'">
+  <ng-container *ngFor="let timelineItem of items; let itemIndex = index">
+    <div class="timeline-item relative" [class.flex]="layout === 'horizontal'" [class.items-center]="layout === 'horizontal'" [class.mb-8]="layout === 'vertical' && itemIndex !== items.length - 1" [class.mr-8]="layout === 'horizontal' && itemIndex !== items.length - 1">
+      <div class="connector absolute bg-gray-200" 
+           [class.w-px]="layout === 'vertical'"
+           [class.h-full]="layout === 'vertical'"
+           [class.top-10]="layout === 'vertical'"
+           [class.left-4]="layout === 'vertical' && !alternate"
+           [class.right-4]="layout === 'vertical' && alternate"
+           [class.h-px]="layout === 'horizontal'"
+           [class.w-full]="layout === 'horizontal'"
+           [class.top-4]="layout === 'horizontal'"
+           [class.right-0]="layout === 'horizontal' && itemIndex !== items.length - 1">
+      </div>
+      <div class="timeline-content relative" [class.ml-12]="layout === 'vertical' && !alternate" [class.mr-12]="layout === 'vertical' && alternate && itemIndex % 2 === 1" [class.ml-12]="layout === 'vertical' && alternate && itemIndex % 2 === 0" [class.mt-12]="layout === 'horizontal'">
+        <div class="marker absolute bg-white rounded-full border-4 z-10" 
+           [class.w-8]="layout === 'vertical'" 
+           [class.h-8]="layout === 'vertical'" 
+           [class.left-[-2rem]]="layout === 'vertical' && !alternate"
+           [class.left-[-2rem]]="layout === 'vertical' && alternate && itemIndex % 2 === 0"
+           [class.right-[-2rem]]="layout === 'vertical' && alternate && itemIndex % 2 === 1"
+           [class.top-[-1rem]]="layout === 'horizontal'"
+           [class.left-0]="layout === 'horizontal'"
+           [class.transform]="layout === 'horizontal'"
+           [class.translate-x-[-50%]]="layout === 'horizontal'"
+           [style.border-color]="timelineItem.markerColor || getThemeColor()">
+          <i *ngIf="timelineItem.icon" [class]="timelineItem.icon" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-sm" [style.color]="timelineItem.markerColor || getThemeColor()"></i>
+        </div>
+        <div class="content bg-white rounded-lg border p-4 shadow-sm" [class.text-right]="layout === 'vertical' && alternate && itemIndex % 2 === 1">
+          <ng-container *ngTemplateOutlet="itemTemplate || defaultItemTemplate; context: { $implicit: timelineItem, index: itemIndex }"></ng-container>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #defaultItemTemplate let-item>
+  <div class="space-y-2">
+    <div class="flex items-center justify-between text-sm text-gray-500">
+      <span>{{ item.date | date }}</span>
+    </div>
+    <h3 class="text-lg font-semibold text-gray-900">{{ item.title }}</h3>
+    <p class="text-gray-600">{{ item.content }}</p>
+  </div>
+</ng-template> 

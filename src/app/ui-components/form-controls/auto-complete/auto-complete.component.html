@@ -1,0 +1,94 @@
+<div class="ui-auto-complete" [class.focused]="focused">
+  <label *ngIf="label" [for]="id" class="ui-auto-complete-label">
+    {{ label }}
+    <span *ngIf="required" class="required-indicator" aria-hidden="true">*</span>
+  </label>
+
+  <div class="ui-auto-complete-wrapper">
+    <!-- Selected Items (Multiple Mode) -->
+    <div *ngIf="multiple" class="selected-items" [class.has-items]="selectedItems.length > 0">
+      <div *ngFor="let item of selectedItems; trackBy: trackByValue" 
+           class="selected-item"
+           [class.disabled]="disabled">
+        <ng-container *ngTemplateOutlet="selectedItemTemplate || defaultSelectedItem; context: { $implicit: item }">
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Input Field -->
+    <div class="input-container" [class.has-selected-items]="multiple && selectedItems.length > 0">
+      <input
+        #input
+        [id]="id"
+        type="text"
+        [placeholder]="placeholder"
+        [disabled]="disabled"
+        [required]="required"
+        [attr.aria-label]="label || placeholder"
+        [attr.aria-expanded]="showSuggestions"
+        [attr.aria-activedescendant]="highlightedIndex >= 0 ? 'suggestion-' + highlightedIndex : null"
+        role="combobox"
+        (input)="onInput($event)"
+        (focus)="onFocus()"
+        (blur)="onBlur()"
+        (keydown)="onKeyDown($event)"
+      />
+
+      <!-- Clear Button -->
+      <button *ngIf="clearable && (selectedItems.length > 0 || searchQuery)"
+              type="button"
+              class="clear-button"
+              [class.disabled]="disabled"
+              (click)="clearSelection()"
+              [attr.aria-label]="'Clear selection'">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+
+    <!-- Suggestions Dropdown -->
+    <div *ngIf="showSuggestions" 
+         class="suggestions-dropdown"
+         role="listbox"
+         [attr.aria-label]="'Suggestions'">
+      <!-- Loading State -->
+      <div *ngIf="loading" class="suggestion-item loading">
+        {{ loadingSuggestionText }}
+      </div>
+
+      <!-- No Results -->
+      <div *ngIf="!loading && filteredSuggestions.length === 0" class="suggestion-item no-results">
+        {{ noSuggestionsText }}
+      </div>
+
+      <!-- Suggestions List -->
+      <div *ngFor="let item of filteredSuggestions; let i = index; trackBy: trackByValue"
+           class="suggestion-item"
+           [class.highlighted]="i === highlightedIndex"
+           [id]="'suggestion-' + i"
+           role="option"
+           [attr.aria-selected]="i === highlightedIndex"
+           (mouseenter)="highlightedIndex = i"
+           (click)="selectItem(item)">
+        <ng-container *ngTemplateOutlet="itemTemplate || defaultItem; context: { $implicit: item }">
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Default Item Template -->
+<ng-template #defaultItem let-item>
+  {{ item.label }}
+</ng-template>
+
+<!-- Default Selected Item Template -->
+<ng-template #defaultSelectedItem let-item>
+  <span class="selected-item-label">{{ item.label }}</span>
+  <button type="button"
+          class="remove-item"
+          (click)="removeItem(item); $event.stopPropagation()"
+          [attr.aria-label]="'Remove ' + item.label"
+          [disabled]="disabled">
+    <span aria-hidden="true">×</span>
+  </button>
+</ng-template> 

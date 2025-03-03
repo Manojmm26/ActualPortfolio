@@ -1,0 +1,76 @@
+.ui-input-otp {
+  @apply flex gap-2 items-center justify-center;
+
+  input {
+    @apply w-12 h-12 text-center border rounded-lg text-lg font-medium
+           focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500
+           disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed
+           transition-all duration-200;
+
+    &::placeholder {
+      @apply text-gray-400;
+    }
+  }
+
+  &.focused {
+    input {
+      @apply border-primary-300;
+    }
+  }
+}
+
+// Size variants
+:host-context(.ui-size-sm) .ui-input-otp {
+  input {
+    @apply w-10 h-10 text-base;
+  }
+}
+
+:host-context(.ui-size-lg) .ui-input-otp {
+  input {
+    @apply w-14 h-14 text-xl;
+  }
+}
+
+:host-context(.ui-size-xl) .ui-input-otp {
+  input {
+    @apply w-16 h-16 text-2xl;
+  }
+}
+
+// Theme variants
+:host-context(.ui-theme-primary) .ui-input-otp {
+  input {
+    @apply focus:ring-primary-500 focus:border-primary-500;
+    &:hover:not(:disabled) {
+      @apply border-primary-300;
+    }
+  }
+}
+
+:host-context(.ui-theme-secondary) .ui-input-otp {
+  input {
+    @apply focus:ring-secondary-500 focus:border-secondary-500;
+    &:hover:not(:disabled) {
+      @apply border-secondary-300;
+    }
+  }
+}
+
+:host-context(.ui-theme-success) .ui-input-otp {
+  input {
+    @apply focus:ring-success-500 focus:border-success-500;
+    &:hover:not(:disabled) {
+      @apply border-success-300;
+    }
+  }
+}
+
+:host-context(.ui-theme-error) .ui-input-otp {
+  input {
+    @apply focus:ring-error-500 focus:border-error-500;
+    &:hover:not(:disabled) {
+      @apply border-error-300;
+    }
+  }
+} 

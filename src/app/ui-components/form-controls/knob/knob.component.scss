@@ -1,0 +1,153 @@
+.ui-knob {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: fit-content;
+
+  .knob-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgb(55 65 81);
+
+    &.required::after {
+      content: '*';
+      margin-left: 0.25rem;
+      color: rgb(239 68 68);
+    }
+  }
+
+  .knob-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    touch-action: none;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid rgb(59 130 246);
+      outline-offset: 2px;
+      border-radius: 50%;
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+
+  .knob-svg {
+    transform: rotate(90deg);
+
+    .knob-track {
+      fill: none;
+      stroke: rgb(229 231 235);
+      transition: stroke 0.2s;
+    }
+
+    .knob-progress {
+      fill: none;
+      stroke: rgb(59 130 246);
+      transition: stroke-dashoffset 0.2s;
+      stroke-linecap: round;
+    }
+
+    .knob-marker {
+      fill: rgb(59 130 246);
+      filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1));
+      transition: fill 0.2s;
+    }
+  }
+
+  .knob-value {
+    position: absolute;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: rgb(55 65 81);
+    text-align: center;
+    transition: color 0.2s;
+  }
+
+  .knob-hint {
+    font-size: 0.75rem;
+    color: rgb(107 114 128);
+  }
+
+  .knob-error {
+    font-size: 0.75rem;
+    color: rgb(239 68 68);
+  }
+
+  &.focused {
+    .knob-track {
+      stroke: rgb(209 213 219);
+    }
+
+    .knob-progress {
+      stroke: rgb(37 99 235);
+    }
+
+    .knob-marker {
+      fill: rgb(37 99 235);
+    }
+
+    .knob-value {
+      color: rgb(37 99 235);
+    }
+  }
+}
+
+// Size Variants
+:host-context(.ui-size-sm) .ui-knob {
+  .knob-value {
+    font-size: 1rem;
+  }
+}
+
+:host-context(.ui-size-lg) .ui-knob {
+  .knob-value {
+    font-size: 1.5rem;
+  }
+}
+
+// Theme Variants
+:host-context(.ui-theme-primary) .ui-knob {
+  .knob-progress {
+    stroke: rgb(59 130 246);
+  }
+  .knob-marker {
+    fill: rgb(59 130 246);
+  }
+}
+
+:host-context(.ui-theme-secondary) .ui-knob {
+  .knob-progress {
+    stroke: rgb(107 114 128);
+  }
+  .knob-marker {
+    fill: rgb(107 114 128);
+  }
+}
+
+:host-context(.ui-theme-success) .ui-knob {
+  .knob-progress {
+    stroke: rgb(22 163 74);
+  }
+  .knob-marker {
+    fill: rgb(22 163 74);
+  }
+}
+
+:host-context(.ui-theme-error) .ui-knob {
+  .knob-progress {
+    stroke: rgb(220 38 38);
+  }
+  .knob-marker {
+    fill: rgb(220 38 38);
+  }
+} 

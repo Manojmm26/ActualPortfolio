@@ -1,0 +1,52 @@
+<div class="ui-rating" [class.focused]="focused">
+  <label *ngIf="label" [for]="id" class="ui-rating-label">
+    {{ label }}
+    <span *ngIf="required" class="required-indicator" aria-hidden="true">*</span>
+  </label>
+
+  <div class="rating-container"
+       role="radiogroup"
+       [attr.aria-label]="label || 'Rating'"
+       [attr.tabindex]="disabled ? -1 : 0"
+       (keydown)="onKeyDown($event, value)"
+       (focus)="focused = true"
+       (blur)="focused = false; onTouched()">
+    
+    <div class="stars-container">
+      <button *ngFor="let star of stars; let i = index"
+              type="button"
+              class="star-button"
+              [class.filled]="(hoverValue || value) >= star"
+              [class.disabled]="disabled"
+              [class.readonly]="readonly"
+              [attr.aria-label]="getTooltip(i)"
+              [attr.aria-checked]="value >= star"
+              [attr.title]="getTooltip(i)"
+              [disabled]="disabled || readonly"
+              (click)="onStarClick(star)"
+              (mouseenter)="onStarHover(star)"
+              (mouseleave)="onStarLeave()">
+        <span class="star-symbol" aria-hidden="true">
+          {{ (hoverValue || value) >= star ? symbol : emptySymbol }}
+        </span>
+      </button>
+    </div>
+
+    <button *ngIf="showCancelButton && !readonly && value > 0"
+            type="button"
+            class="cancel-button"
+            [class.disabled]="disabled"
+            [attr.aria-label]="'Clear rating'"
+            [disabled]="disabled"
+            (click)="clearValue()">
+      <span aria-hidden="true">×</span>
+    </button>
+
+    <span *ngIf="showValue && value > 0" 
+          class="rating-value" 
+          role="status"
+          [attr.aria-label]="'Current rating: ' + value + ' out of ' + max">
+      {{ value }}/{{ max }}
+    </span>
+  </div>
+</div> 

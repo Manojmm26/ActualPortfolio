@@ -1,0 +1,266 @@
+<div class="demo-container">
+  <h1>UI Components Demo</h1>
+
+  <!-- Form Controls Section -->
+  <section class="component-section">
+    <h2>Form Controls</h2>
+
+    <!-- Basic Inputs -->
+    <div class="component-group">
+      <h3>Basic Inputs</h3>
+      <div class="component-grid">
+        <div class="component-item">
+          <h4>Input</h4>
+          <app-input 
+            [formControl]="getControl('username')"
+            [validation]="usernameValidation">
+          </app-input>
+        </div>
+        <div class="component-item">
+          <h4>Button</h4>
+          <app-button label="Click Me" (click)="alert('Button clicked!')"></app-button>
+        </div>
+        <div class="component-item">
+          <h4>Radio</h4>
+          <app-radio [options]="basicOptions" [(ngModel)]="selectValues.basic"></app-radio>
+        </div>
+        <div class="component-item">
+          <h4>Select</h4>
+          <app-select [options]="basicOptions" [(ngModel)]="selectValues.basic"></app-select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Advanced Inputs -->
+    <div class="component-group">
+      <h3>Advanced Inputs</h3>
+      <div class="component-grid">
+        <div class="component-item">
+          <h4>Select with Icons</h4>
+          <app-select [options]="iconOptions" [(ngModel)]="selectValues.icons"></app-select>
+        </div>
+        <div class="component-item">
+          <h4>Multiple Select</h4>
+          <app-select 
+            [options]="basicOptions" 
+            [(ngModel)]="selectValues.multiple" 
+            [multiple]="true"
+            [validation]="multiSelectValidation">
+          </app-select>
+        </div>
+        <div class="component-item">
+          <h4>Password Input</h4>
+          <app-input 
+            type="password"
+            [formControl]="getControl('password')"
+            [validation]="passwordValidation">
+          </app-input>
+        </div>
+        <div class="component-item">
+          <h4>Disabled Input</h4>
+          <app-input [formControl]="getControl('disabled')"></app-input>
+        </div>
+      </div>
+    </div>
+
+    <!-- Special Inputs -->
+    <div class="component-group">
+      <h3>Special Inputs</h3>
+      <div class="component-grid">
+        <div class="component-item">
+          <h4>Checkbox</h4>
+          <app-checkbox [(ngModel)]="checkboxValues.basic" label="Basic Checkbox"></app-checkbox>
+        </div>
+        <div class="component-item">
+          <h4>Date Picker</h4>
+          <app-date-picker [formControl]="getControl('date')"></app-date-picker>
+        </div>
+        <div class="component-item">
+          <h4>Color Picker</h4>
+          <app-color-picker [formControl]="getControl('color')"></app-color-picker>
+        </div>
+        <div class="component-item">
+          <h4>Editor</h4>
+          <app-editor [formControl]="getControl('content')"></app-editor>
+        </div>
+        <div class="component-item">
+          <h4>Rating</h4>
+          <app-rating [(ngModel)]="ratingValues.basic"></app-rating>
+        </div>
+        <div class="component-item">
+          <h4>Slider</h4>
+          <app-slider [(ngModel)]="sliderValues.basic"></app-slider>
+        </div>
+        <div class="component-item">
+          <h4>Knob</h4>
+          <app-knob [formControl]="getControl('knob')"></app-knob>
+        </div>
+        <div class="component-item">
+          <h4>OTP Input</h4>
+          <app-input-otp [formControl]="getControl('otp')"></app-input-otp>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data Display Section -->
+  <section class="component-section">
+    <h2>Data Display</h2>
+    
+    <div class="component-group">
+      <h3>Tables & Lists</h3>
+      <div class="component-grid">
+        <div class="component-item full-width">
+          <h4>Table</h4>
+          <app-table 
+            [columns]="tableColumns" 
+            [data]="tableData"
+            [selectedRows]="tableState.selectedRows"
+            [sort]="tableState.sort"
+            [filters]="tableState.filters"
+            [pagination]="tableState.pagination"
+            (selectionChange)="onTableSelectionChange($any($event))"
+            (sortChange)="onTableSortChange($any($event))"
+            (filterChange)="onTableFilterChange($any($event))"
+            (pageChange)="onTablePageChange($any($event))">
+          </app-table>
+        </div>
+      </div>
+    </div>
+
+    <div class="component-group">
+      <h3>Tree & Timeline</h3>
+      <div class="component-grid">
+        <div class="component-item">
+          <h4>Tree</h4>
+          <app-tree 
+            [nodes]="basicTreeNodes"
+            (nodeExpand)="onNodeExpand($any($event))"
+            (nodeCollapse)="onNodeCollapse($any($event))"
+            (nodeSelect)="onNodeSelect($any($event))">
+          </app-tree>
+        </div>
+        <div class="component-item">
+          <h4>Timeline</h4>
+          <app-timeline 
+            [items]="timelineItems"
+            [layout]="timelineState.layout"
+            [alternate]="timelineState.alternate">
+          </app-timeline>
+        </div>
+      </div>
+    </div>
+
+    <div class="component-group">
+      <h3>Data Views</h3>
+      <div class="component-grid">
+        <div class="component-item full-width">
+          <h4>Data View</h4>
+          <app-data-view
+            [items]="products"
+            [layout]="dataViewLayout"
+            [sortFields]="productSortFields"
+            (layoutChange)="onDataViewLayoutChange($any($event))"
+            (sortChange)="onDataViewSortChange($any($event))">
+          </app-data-view>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feedback Section -->
+  <section class="component-section">
+    <h2>Feedback</h2>
+
+    <div class="component-group">
+      <h3>Notifications & Alerts</h3>
+      <div class="component-grid">
+        <div class="component-item">
+          <h4>Alerts</h4>
+          <app-alerts></app-alerts>
+        </div>
+        <div class="component-item">
+          <h4>Notifications</h4>
+          <app-notifications></app-notifications>
+        </div>
+        <div class="component-item">
+          <h4>Banner</h4>
+          <app-banner></app-banner>
+        </div>
+      </div>
+    </div>
+
+    <div class="component-group">
+      <h3>Progress & Dialog</h3>
+      <div class="component-grid">
+        <div class="component-item">
+          <h4>Progress</h4>
+          <app-progress></app-progress>
+        </div>
+        <div class="component-item">
+          <h4>Dialog</h4>
+          <app-dialog></app-dialog>
+        </div>
+        <div class="component-item">
+          <h4>Tooltip</h4>
+          <app-tooltip></app-tooltip>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  .demo-container {
+    padding: var(--spacing-lg);
+  }
+
+  .component-section {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .component-section h2 {
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .component-group {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .component-group h3 {
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .component-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .component-item {
+    background: var(--color-surface);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+  }
+
+  .component-item h4 {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .full-width {
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 768px) {
+    .component-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style> 

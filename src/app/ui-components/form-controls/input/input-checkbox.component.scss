@@ -1,0 +1,199 @@
+.ui-checkbox {
+  @apply flex flex-col gap-2;
+
+  .checkbox-container {
+    @apply flex items-start gap-2;
+
+    &.disabled {
+      @apply opacity-50 cursor-not-allowed;
+
+      .checkbox-label {
+        @apply cursor-not-allowed;
+      }
+    }
+
+    .checkbox-input-container {
+      @apply relative flex items-center justify-center;
+
+      input[type="checkbox"] {
+        @apply absolute w-5 h-5 opacity-0 cursor-pointer;
+
+        &:disabled {
+          @apply cursor-not-allowed;
+        }
+
+        &:focus + .checkbox-control {
+          @apply ring-2 ring-offset-2;
+        }
+
+        &:checked + .checkbox-control {
+          @apply bg-primary-500 border-primary-500;
+
+          .checkmark {
+            @apply opacity-100 transform scale-100;
+          }
+        }
+
+        &:indeterminate + .checkbox-control {
+          @apply bg-primary-500 border-primary-500;
+
+          .indeterminate {
+            @apply opacity-100 transform scale-100;
+          }
+        }
+      }
+
+      .checkbox-control {
+        @apply w-5 h-5 border-2 rounded
+               flex items-center justify-center
+               bg-white transition-colors duration-200;
+
+        .checkmark,
+        .indeterminate {
+          @apply w-3.5 h-3.5 text-white
+                 opacity-0 transform scale-75
+                 transition-all duration-200;
+        }
+      }
+    }
+
+    .checkbox-label {
+      @apply flex flex-col cursor-pointer;
+
+      .label-text {
+        @apply text-sm text-gray-900;
+      }
+
+      .description-text {
+        @apply text-sm text-gray-500;
+      }
+
+      &.required::after {
+        content: '*';
+        @apply ml-1 text-error-500;
+      }
+    }
+  }
+
+  .checkbox-hint {
+    @apply text-sm text-gray-500;
+  }
+
+  .checkbox-error {
+    @apply text-sm text-error-500;
+  }
+}
+
+// Size variants
+:host-context(.ui-size-sm) .ui-checkbox {
+  .checkbox-container {
+    .checkbox-input-container {
+      input[type="checkbox"],
+      .checkbox-control {
+        @apply w-4 h-4;
+      }
+
+      .checkbox-control {
+        .checkmark,
+        .indeterminate {
+          @apply w-3 h-3;
+        }
+      }
+    }
+
+    .checkbox-label {
+      .label-text,
+      .description-text {
+        @apply text-xs;
+      }
+    }
+  }
+}
+
+:host-context(.ui-size-lg) .ui-checkbox {
+  .checkbox-container {
+    .checkbox-input-container {
+      input[type="checkbox"],
+      .checkbox-control {
+        @apply w-6 h-6;
+      }
+
+      .checkbox-control {
+        .checkmark,
+        .indeterminate {
+          @apply w-4 h-4;
+        }
+      }
+    }
+
+    .checkbox-label {
+      .label-text {
+        @apply text-base;
+      }
+      .description-text {
+        @apply text-sm;
+      }
+    }
+  }
+}
+
+// Theme variants
+:host-context(.ui-theme-primary) .ui-checkbox {
+  .checkbox-container .checkbox-input-container {
+    input[type="checkbox"] {
+      &:focus + .checkbox-control {
+        @apply ring-primary-200;
+      }
+
+      &:checked + .checkbox-control,
+      &:indeterminate + .checkbox-control {
+        @apply bg-primary-500 border-primary-500;
+      }
+    }
+  }
+}
+
+:host-context(.ui-theme-secondary) .ui-checkbox {
+  .checkbox-container .checkbox-input-container {
+    input[type="checkbox"] {
+      &:focus + .checkbox-control {
+        @apply ring-secondary-200;
+      }
+
+      &:checked + .checkbox-control,
+      &:indeterminate + .checkbox-control {
+        @apply bg-secondary-500 border-secondary-500;
+      }
+    }
+  }
+}
+
+:host-context(.ui-theme-success) .ui-checkbox {
+  .checkbox-container .checkbox-input-container {
+    input[type="checkbox"] {
+      &:focus + .checkbox-control {
+        @apply ring-success-200;
+      }
+
+      &:checked + .checkbox-control,
+      &:indeterminate + .checkbox-control {
+        @apply bg-success-500 border-success-500;
+      }
+    }
+  }
+}
+
+:host-context(.ui-theme-error) .ui-checkbox {
+  .checkbox-container .checkbox-input-container {
+    input[type="checkbox"] {
+      &:focus + .checkbox-control {
+        @apply ring-error-200;
+      }
+
+      &:checked + .checkbox-control,
+      &:indeterminate + .checkbox-control {
+        @apply bg-error-500 border-error-500;
+      }
+    }
+  }
+} 

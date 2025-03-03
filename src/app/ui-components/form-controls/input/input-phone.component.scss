@@ -1,0 +1,315 @@
+.ui-phone {
+  @apply relative w-full;
+
+  .input-container {
+    @apply relative flex flex-col;
+
+    &.focused {
+      .input-label {
+        @apply text-primary-500 transform -translate-y-5 scale-75;
+      }
+
+      .input-wrapper {
+        @apply ring-1 ring-primary-500;
+
+        .input-field {
+          @apply border-primary-500;
+        }
+      }
+    }
+
+    &.filled {
+      .input-label {
+        @apply transform -translate-y-5 scale-75;
+      }
+    }
+
+    .input-wrapper {
+      @apply relative flex items-stretch
+             rounded-md
+             transition-all duration-200;
+
+      .country-select {
+        @apply flex items-center gap-2 px-3 py-2
+               border-r border-gray-200
+               text-gray-700
+               hover:bg-gray-50
+               focus:outline-none focus:ring-2 focus:ring-primary-500
+               transition-colors duration-200;
+
+        &.disabled {
+          @apply opacity-50 cursor-not-allowed hover:bg-transparent;
+        }
+
+        .flag {
+          @apply text-lg;
+        }
+
+        .dial-code {
+          @apply text-sm font-medium;
+        }
+
+        .arrow {
+          @apply text-xs text-gray-400 transition-transform duration-200;
+
+          &.expanded {
+            @apply transform rotate-180;
+          }
+        }
+      }
+
+      .country-list {
+        @apply absolute left-0 top-full mt-1
+               w-64 max-h-60
+               bg-white rounded-md shadow-lg
+               border border-gray-200
+               z-20;
+
+        .search-box {
+          @apply p-2 border-b border-gray-200;
+
+          input {
+            @apply w-full px-3 py-1.5
+                   text-sm border rounded-md
+                   focus:outline-none focus:ring-2 focus:ring-primary-500;
+          }
+        }
+
+        .countries {
+          @apply overflow-y-auto max-h-48;
+
+          .country-option {
+            @apply flex items-center gap-2 w-full
+                   px-3 py-2 text-left
+                   text-gray-700
+                   hover:bg-gray-50
+                   transition-colors duration-150;
+
+            &.selected {
+              @apply bg-gray-50 text-primary-500;
+            }
+
+            .flag {
+              @apply text-lg;
+            }
+
+            .country-name {
+              @apply text-sm flex-grow;
+            }
+
+            .dial-code {
+              @apply text-sm text-gray-500;
+            }
+          }
+        }
+      }
+
+      .input-field {
+        @apply w-full pl-3 pr-3 py-2 text-base
+               border rounded-md
+               bg-white text-gray-900
+               transition-all duration-200
+               focus:outline-none;
+
+        &:disabled {
+          @apply bg-gray-100 cursor-not-allowed;
+        }
+      }
+    }
+
+    .input-label {
+      @apply absolute left-3 top-2
+             text-gray-600
+             transition-all duration-200
+             origin-[0];
+
+      &.required::after {
+        content: '*';
+        @apply ml-1 text-error-500;
+      }
+    }
+
+    .input-hint {
+      @apply mt-1 text-sm text-gray-500;
+    }
+
+    .input-error {
+      @apply mt-1 text-sm text-error-500;
+    }
+  }
+
+  &.floating {
+    .input-container {
+      .input-wrapper .input-field {
+        @apply pt-6 pb-2;
+      }
+
+      .input-label {
+        @apply top-5;
+      }
+
+      &.focused,
+      &.filled {
+        .input-label {
+          @apply top-2;
+        }
+      }
+    }
+  }
+}
+
+// Size variants
+:host-context(.ui-size-sm) .ui-phone {
+  .input-container {
+    .input-wrapper {
+      .country-select {
+        @apply px-2 py-1.5;
+
+        .flag {
+          @apply text-base;
+        }
+
+        .dial-code {
+          @apply text-xs;
+        }
+      }
+
+      .country-list {
+        @apply w-56;
+
+        .search-box input {
+          @apply py-1 text-xs;
+        }
+
+        .countries .country-option {
+          @apply py-1.5;
+
+          .country-name,
+          .dial-code {
+            @apply text-xs;
+          }
+        }
+      }
+
+      .input-field {
+        @apply px-2 py-1.5 text-sm;
+      }
+    }
+  }
+
+  &.floating .input-container {
+    .input-wrapper .input-field {
+      @apply pt-5 pb-1.5;
+    }
+  }
+}
+
+:host-context(.ui-size-lg) .ui-phone {
+  .input-container {
+    .input-wrapper {
+      .country-select {
+        @apply px-4 py-3;
+
+        .flag {
+          @apply text-xl;
+        }
+
+        .dial-code {
+          @apply text-base;
+        }
+      }
+
+      .country-list {
+        @apply w-72;
+
+        .search-box input {
+          @apply py-2 text-base;
+        }
+
+        .countries .country-option {
+          @apply py-2.5;
+
+          .country-name,
+          .dial-code {
+            @apply text-base;
+          }
+        }
+      }
+
+      .input-field {
+        @apply px-4 py-3 text-lg;
+      }
+    }
+  }
+
+  &.floating .input-container {
+    .input-wrapper .input-field {
+      @apply pt-7 pb-3;
+    }
+  }
+}
+
+// Theme variants
+:host-context(.ui-theme-primary) .ui-phone {
+  .input-container.focused {
+    .input-label {
+      @apply text-primary-500;
+    }
+
+    .input-wrapper {
+      @apply ring-primary-500;
+
+      .input-field {
+        @apply border-primary-500;
+      }
+    }
+  }
+}
+
+:host-context(.ui-theme-secondary) .ui-phone {
+  .input-container.focused {
+    .input-label {
+      @apply text-secondary-500;
+    }
+
+    .input-wrapper {
+      @apply ring-secondary-500;
+
+      .input-field {
+        @apply border-secondary-500;
+      }
+    }
+  }
+}
+
+:host-context(.ui-theme-success) .ui-phone {
+  .input-container.focused {
+    .input-label {
+      @apply text-success-500;
+    }
+
+    .input-wrapper {
+      @apply ring-success-500;
+
+      .input-field {
+        @apply border-success-500;
+      }
+    }
+  }
+}
+
+:host-context(.ui-theme-error) .ui-phone {
+  .input-container.focused {
+    .input-label {
+      @apply text-error-500;
+    }
+
+    .input-wrapper {
+      @apply ring-error-500;
+
+      .input-field {
+        @apply border-error-500;
+      }
+    }
+  }
+} 

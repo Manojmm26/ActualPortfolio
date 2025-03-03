@@ -1,0 +1,250 @@
+.ui-color-picker {
+  @apply flex flex-col gap-1;
+
+  .ui-color-picker-label {
+    @apply text-sm font-medium text-gray-700 flex items-center gap-1;
+
+    .required-indicator {
+      @apply text-error-500;
+    }
+  }
+
+  .color-picker-container {
+    @apply relative;
+
+    .selected-color {
+      @apply flex items-center gap-2 w-full px-3 py-2 border rounded-lg bg-white
+             focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500
+             transition-all duration-200;
+
+      &.disabled {
+        @apply bg-gray-100 cursor-not-allowed opacity-50;
+      }
+
+      .color-preview {
+        @apply w-6 h-6 rounded border border-gray-200;
+        background-image: linear-gradient(45deg, #ddd 25%, transparent 25%),
+                        linear-gradient(-45deg, #ddd 25%, transparent 25%),
+                        linear-gradient(45deg, transparent 75%, #ddd 75%),
+                        linear-gradient(-45deg, transparent 75%, #ddd 75%);
+        background-size: 10px 10px;
+        background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+      }
+
+      .color-value {
+        @apply flex-grow text-left text-sm text-gray-700;
+      }
+
+      .dropdown-arrow {
+        @apply w-5 h-5 text-gray-400 transition-transform duration-200;
+
+        &.expanded {
+          @apply transform rotate-180;
+        }
+      }
+    }
+
+    .color-picker-dropdown {
+      @apply absolute z-50 w-64 mt-1 p-4 bg-white rounded-lg shadow-lg border
+             flex flex-col gap-4;
+
+      .format-selector {
+        @apply flex rounded-lg border overflow-hidden;
+
+        .format-button {
+          @apply flex-1 px-3 py-1.5 text-sm font-medium text-gray-500
+                 hover:bg-gray-50 focus:outline-none focus:z-10
+                 transition-colors duration-200;
+
+          &.active {
+            @apply bg-primary-50 text-primary-700;
+          }
+        }
+      }
+
+      .color-sliders {
+        @apply flex flex-col gap-3;
+
+        .slider-group {
+          @apply flex flex-col gap-1;
+
+          .slider-label {
+            @apply text-xs font-medium text-gray-600;
+          }
+
+          input[type="range"] {
+            @apply w-full h-2 rounded-lg appearance-none cursor-pointer;
+
+            &::-webkit-slider-thumb {
+              @apply appearance-none w-4 h-4 rounded-full bg-white border-2 border-primary-500
+                     hover:border-primary-600 transition-colors duration-200;
+            }
+          }
+
+          .hue-slider {
+            background: linear-gradient(to right,
+              hsl(0, 100%, 50%),
+              hsl(60, 100%, 50%),
+              hsl(120, 100%, 50%),
+              hsl(180, 100%, 50%),
+              hsl(240, 100%, 50%),
+              hsl(300, 100%, 50%),
+              hsl(360, 100%, 50%)
+            );
+          }
+
+          .saturation-slider {
+            background: linear-gradient(to right,
+              hsl(var(--hue), 0%, 50%),
+              hsl(var(--hue), 100%, 50%)
+            );
+          }
+
+          .lightness-slider {
+            background: linear-gradient(to right,
+              hsl(var(--hue), var(--saturation), 0%),
+              hsl(var(--hue), var(--saturation), 50%),
+              hsl(var(--hue), var(--saturation), 100%)
+            );
+          }
+
+          .alpha-slider {
+            background-image: linear-gradient(45deg, #ddd 25%, transparent 25%),
+                            linear-gradient(-45deg, #ddd 25%, transparent 25%),
+                            linear-gradient(45deg, transparent 75%, #ddd 75%),
+                            linear-gradient(-45deg, transparent 75%, #ddd 75%);
+            background-size: 10px 10px;
+            background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+          }
+        }
+      }
+
+      .color-input {
+        @apply flex flex-col gap-2;
+
+        input[type="text"],
+        input[type="number"] {
+          @apply px-2 py-1 text-sm border rounded
+                 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500;
+        }
+
+        .rgb-inputs,
+        .hsl-inputs {
+          @apply grid grid-cols-3 gap-2;
+        }
+      }
+
+      .preset-colors {
+        @apply grid grid-cols-5 gap-2;
+
+        .preset-color {
+          @apply w-8 h-8 rounded-lg border border-gray-200
+                 focus:outline-none focus:ring-2 focus:ring-primary-500
+                 hover:scale-110 transition-transform duration-200;
+        }
+      }
+
+      .recent-colors {
+        @apply flex flex-col gap-2;
+
+        .section-label {
+          @apply text-xs font-medium text-gray-600;
+        }
+
+        .recent-colors-grid {
+          @apply grid grid-cols-4 gap-2;
+
+          .recent-color {
+            @apply w-8 h-8 rounded-lg border border-gray-200
+                   focus:outline-none focus:ring-2 focus:ring-primary-500
+                   hover:scale-110 transition-transform duration-200;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Size variants
+:host-context(.ui-size-sm) .ui-color-picker {
+  .ui-color-picker-label {
+    @apply text-xs;
+  }
+
+  .color-picker-container {
+    .selected-color {
+      @apply px-2 py-1.5;
+
+      .color-preview {
+        @apply w-5 h-5;
+      }
+
+      .color-value {
+        @apply text-xs;
+      }
+    }
+
+    .color-picker-dropdown {
+      @apply w-56 p-3;
+
+      .preset-colors .preset-color,
+      .recent-colors .recent-color {
+        @apply w-6 h-6;
+      }
+    }
+  }
+}
+
+:host-context(.ui-size-lg) .ui-color-picker {
+  .ui-color-picker-label {
+    @apply text-base;
+  }
+
+  .color-picker-container {
+    .selected-color {
+      @apply px-4 py-2.5;
+
+      .color-preview {
+        @apply w-7 h-7;
+      }
+
+      .color-value {
+        @apply text-base;
+      }
+    }
+
+    .color-picker-dropdown {
+      @apply w-72 p-5;
+
+      .preset-colors .preset-color,
+      .recent-colors .recent-color {
+        @apply w-10 h-10;
+      }
+    }
+  }
+}
+
+// Theme variants
+:host-context(.ui-theme-primary) .ui-color-picker {
+  .selected-color:focus {
+    @apply ring-primary-500 border-primary-500;
+  }
+}
+
+:host-context(.ui-theme-secondary) .ui-color-picker {
+  .selected-color:focus {
+    @apply ring-secondary-500 border-secondary-500;
+  }
+}
+
+:host-context(.ui-theme-success) .ui-color-picker {
+  .selected-color:focus {
+    @apply ring-success-500 border-success-500;
+  }
+}
+
+:host-context(.ui-theme-error) .ui-color-picker {
+  .selected-color:focus {
+    @apply ring-error-500 border-error-500;
+  }
+} 

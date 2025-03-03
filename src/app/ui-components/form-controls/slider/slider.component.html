@@ -1,0 +1,155 @@
+<div class="ui-slider" [class.vertical]="orientation === 'vertical'">
+  <label *ngIf="label" class="ui-slider-label">
+    {{ label }}
+    <span *ngIf="required" class="required-indicator" aria-hidden="true">*</span>
+  </label>
+
+  <div class="slider-container" [class.vertical]="orientation === 'vertical'">
+    <!-- Min Label -->
+    <span *ngIf="showMinMaxLabels" class="min-label">
+      {{ minLabel || min }}
+    </span>
+
+    <!-- Slider Track -->
+    <div class="slider" #sliderTrack
+         (click)="onTrackClick($event)"
+         role="slider"
+         [attr.aria-valuemin]="min"
+         [attr.aria-valuemax]="max"
+         [attr.aria-valuenow]="mode === 'range' ? getRangeValue()[1] : value"
+         [attr.aria-orientation]="orientation"
+         [attr.aria-disabled]="disabled">
+
+      <!-- Track Fill -->
+      <div class="track-fill"
+           [style.left]="orientation === 'horizontal' ? getTrackFillPosition().start : '0'"
+           [style.right]="orientation === 'horizontal' ? (100 - getTrackFillPositionEnd()) + '%' : '0'"
+           [style.bottom]="orientation === 'vertical' ? getTrackFillPosition().start : '0'"
+           [style.top]="orientation === 'vertical' ? (100 - getTrackFillPositionEnd()) + '%' : '0'">
+      </div>
+
+      <!-- Ticks -->
+      <div *ngIf="showTicks" class="ticks-container">
+        <div *ngFor="let tick of ticks"
+             class="tick"
+             [style.left]="orientation === 'horizontal' ? getTickPosition(tick) : '0'"
+             [style.bottom]="orientation === 'vertical' ? getTickPosition(tick) : '0'">
+          <div class="tick-mark"></div>
+          <div class="tick-label">{{ tick }}</div>
+        </div>
+      </div>
+
+      <!-- Markers -->
+      <div *ngIf="markers.length > 0" class="markers-container">
+        <div *ngFor="let marker of markers"
+             class="marker"
+             [style.left]="orientation === 'horizontal' ? getHandlePosition(marker.value) : '0'"
+             [style.bottom]="orientation === 'vertical' ? getHandlePosition(marker.value) : '0'">
+          <div class="marker-line"></div>
+          <div class="marker-label">{{ marker.label }}</div>
+        </div>
+      </div>
+
+      <!-- Handles -->
+      <ng-container *ngIf="mode === 'range'; else singleHandle">
+        <!-- Start Handle -->
+        <div #sliderHandle
+             class="slider-handle start-handle"
+             [class.dragging]="dragging && activeHandle === 'start'"
+             [style.left]="orientation === 'horizontal' ? getHandlePosition(getRangeValue()[0]) : '0'"
+             [style.bottom]="orientation === 'vertical' ? getHandlePosition(getRangeValue()[0]) : '0'"
+             (mousedown)="onHandleMouseDown($event, 'start')"
+             role="slider"
+             [attr.aria-label]="label + ' start'"
+             [attr.aria-valuemin]="min"
+             [attr.aria-valuemax]="getRangeValue()[1]"
+             [attr.aria-valuenow]="getRangeValue()[0]"
+             [attr.aria-disabled]="disabled">
+          <div *ngIf="showTooltip"
+               class="tooltip"
+               [class.visible]="dragging && activeHandle === 'start'">
+            {{ formatTooltip(getRangeValue()[0]) }}
+          </div>
+        </div>
+
+        <!-- End Handle -->
+        <div #sliderHandleEnd
+             class="slider-handle end-handle"
+             [class.dragging]="dragging && activeHandle === 'end'"
+             [style.left]="orientation === 'horizontal' ? getHandlePosition(getRangeValue()[1]) : '0'"
+             [style.bottom]="orientation === 'vertical' ? getHandlePosition(getRangeValue()[1]) : '0'"
+             (mousedown)="onHandleMouseDown($event, 'end')"
+             role="slider"
+             [attr.aria-label]="label + ' end'"
+             [attr.aria-valuemin]="getRangeValue()[0]"
+             [attr.aria-valuemax]="max"
+             [attr.aria-valuenow]="getRangeValue()[1]"
+             [attr.aria-disabled]="disabled">
+          <div *ngIf="showTooltip"
+               class="tooltip"
+               [class.visible]="dragging && activeHandle === 'end'">
+            {{ formatTooltip(getRangeValue()[1]) }}
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Single Handle Template -->
+      <ng-template #singleHandle>
+        <div #sliderHandle
+             class="slider-handle"
+             [class.dragging]="dragging"
+             [style.left]="orientation === 'horizontal' ? getHandlePositionSingle() : '0'"
+             [style.bottom]="orientation === 'vertical' ? getHandlePositionSingle() : '0'"
+             (mousedown)="onHandleMouseDown($event, 'start')"
+             role="slider"
+             [attr.aria-label]="label"
+             [attr.aria-valuemin]="min"
+             [attr.aria-valuemax]="max"
+             [attr.aria-valuenow]="getSingleValue()"
+             [attr.aria-disabled]="disabled">
+          <div *ngIf="showTooltip"
+               class="tooltip"
+               [class.visible]="dragging">
+            {{ formatTooltipSingle() }}
+          </div>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Max Label -->
+    <span *ngIf="showMinMaxLabels" class="max-label">
+      {{ maxLabel || max }}
+    </span>
+  </div>
+
+  <!-- Input Fields -->
+  <div *ngIf="showInput" class="input-container">
+    <ng-container *ngIf="mode === 'range'; else singleInput">
+      <input type="number"
+             [min]="min"
+             [max]="getRangeValue()[1]"
+             [step]="step"
+             [disabled]="disabled"
+             [value]="getRangeValue()[0]"
+             (change)="onInputChange($event, 'start')">
+      <span class="separator">-</span>
+      <input type="number"
+             [min]="getRangeValue()[0]"
+             [max]="max"
+             [step]="step"
+             [disabled]="disabled"
+             [value]="getRangeValue()[1]"
+             (change)="onInputChange($event, 'end')">
+    </ng-container>
+
+    <ng-template #singleInput>
+      <input type="number"
+             [min]="min"
+             [max]="max"
+             [step]="step"
+             [disabled]="disabled"
+             [value]="value"
+             (change)="onInputChange($event)">
+    </ng-template>
+  </div>
+</div> 

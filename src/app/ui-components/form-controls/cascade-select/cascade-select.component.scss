@@ -1,0 +1,204 @@
+.ui-cascade-select {
+  @apply flex flex-col gap-1;
+
+  .ui-cascade-select-label {
+    @apply text-sm font-medium text-gray-700 flex items-center gap-1;
+
+    .required-indicator {
+      @apply text-error-500;
+    }
+  }
+
+  .ui-cascade-select-wrapper {
+    @apply relative;
+
+    .selected-display {
+      @apply flex items-center justify-between w-full px-3 py-2 border rounded-lg
+             bg-white text-base cursor-pointer transition-all duration-200;
+
+      &.placeholder {
+        @apply text-gray-400;
+      }
+
+      &.disabled {
+        @apply bg-gray-100 text-gray-400 cursor-not-allowed;
+
+        .dropdown-arrow {
+          @apply text-gray-400;
+        }
+      }
+
+      .clear-button {
+        @apply flex items-center justify-center w-6 h-6 rounded-full
+               text-gray-400 hover:text-gray-600 hover:bg-gray-100
+               transition-colors duration-200;
+      }
+
+      .dropdown-arrow {
+        @apply w-5 h-5 text-gray-400 transition-transform duration-200;
+
+        &.expanded {
+          @apply transform rotate-180;
+        }
+      }
+
+      &:hover:not(.disabled) {
+        @apply border-primary-300;
+      }
+
+      &:focus {
+        @apply outline-none ring-2 ring-primary-500 border-primary-500;
+      }
+    }
+
+    .cascade-dropdown {
+      @apply absolute z-50 w-auto min-w-full mt-1 bg-white rounded-lg shadow-lg border;
+
+      .levels-container {
+        @apply flex divide-x;
+
+        .level {
+          @apply w-48 max-h-60 overflow-y-auto overscroll-contain;
+
+          .loading-state,
+          .no-options-state {
+            @apply p-3 text-sm text-gray-500 text-center;
+          }
+
+          .option {
+            @apply flex items-center justify-between px-3 py-2 text-sm text-gray-700
+                   cursor-pointer hover:bg-gray-50 transition-colors duration-200;
+
+            &.selected {
+              @apply bg-primary-50 text-primary-700;
+
+              .chevron-right {
+                @apply text-primary-500;
+              }
+            }
+
+            &.has-children {
+              @apply pr-2;
+            }
+
+            .option-label {
+              @apply truncate;
+            }
+
+            .chevron-right {
+              @apply w-4 h-4 text-gray-400 flex-shrink-0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &.focused {
+    .selected-display {
+      @apply border-primary-300;
+    }
+  }
+}
+
+// Size variants
+:host-context(.ui-size-sm) .ui-cascade-select {
+  .ui-cascade-select-label {
+    @apply text-xs;
+  }
+
+  .ui-cascade-select-wrapper {
+    .selected-display {
+      @apply px-2 py-1.5 text-sm;
+    }
+
+    .cascade-dropdown {
+      .levels-container .level {
+        @apply w-40;
+
+        .option {
+          @apply px-2 py-1.5 text-xs;
+        }
+      }
+    }
+  }
+}
+
+:host-context(.ui-size-lg) .ui-cascade-select {
+  .ui-cascade-select-label {
+    @apply text-base;
+  }
+
+  .ui-cascade-select-wrapper {
+    .selected-display {
+      @apply px-4 py-2.5 text-lg;
+    }
+
+    .cascade-dropdown {
+      .levels-container .level {
+        @apply w-56;
+
+        .option {
+          @apply px-4 py-2.5 text-base;
+        }
+      }
+    }
+  }
+}
+
+// Theme variants
+:host-context(.ui-theme-primary) .ui-cascade-select {
+  .ui-cascade-select-wrapper {
+    .selected-display:focus {
+      @apply ring-primary-500 border-primary-500;
+    }
+
+    .cascade-dropdown .levels-container .level .option {
+      &.selected {
+        @apply bg-primary-50 text-primary-700;
+      }
+    }
+  }
+}
+
+:host-context(.ui-theme-secondary) .ui-cascade-select {
+  .ui-cascade-select-wrapper {
+    .selected-display:focus {
+      @apply ring-secondary-500 border-secondary-500;
+    }
+
+    .cascade-dropdown .levels-container .level .option {
+      &.selected {
+        @apply bg-secondary-50 text-secondary-700;
+      }
+    }
+  }
+}
+
+:host-context(.ui-theme-success) .ui-cascade-select {
+  .ui-cascade-select-wrapper {
+    .selected-display:focus {
+      @apply ring-success-500 border-success-500;
+    }
+
+    .cascade-dropdown .levels-container .level .option {
+      &.selected {
+        @apply bg-success-50 text-success-700;
+      }
+    }
+  }
+}
+
+:host-context(.ui-theme-error) .ui-cascade-select {
+  .ui-cascade-select-wrapper {
+    .selected-display:focus {
+      @apply ring-error-500 border-error-500;
+    }
+
+    .cascade-dropdown .levels-container .level .option {
+      &.selected {
+        @apply bg-error-50 text-error-700;
+      }
+    }
+  }
+} 

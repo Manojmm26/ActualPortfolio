@@ -1,0 +1,114 @@
+.ui-editor {
+  @apply flex flex-col gap-2;
+
+  .editor-label {
+    @apply text-sm font-medium text-gray-700;
+
+    &.required::after {
+      content: '*';
+      @apply ml-1 text-error-500;
+    }
+  }
+
+  .editor-toolbar {
+    @apply flex flex-wrap gap-2 p-2 bg-gray-50 border border-gray-200 rounded-t-lg;
+
+    .toolbar-group {
+      @apply flex items-center gap-1;
+
+      &:not(:last-child) {
+        @apply pr-2 border-r border-gray-200;
+      }
+
+      .toolbar-button {
+        @apply flex items-center justify-center w-8 h-8
+               rounded transition-colors duration-200
+               text-gray-600 hover:text-gray-900
+               hover:bg-gray-200 focus:outline-none
+               focus:ring-2 focus:ring-primary-500;
+
+        &.active {
+          @apply bg-primary-100 text-primary-700;
+        }
+
+        &:disabled {
+          @apply opacity-50 cursor-not-allowed;
+        }
+      }
+
+      .format-select {
+        @apply px-2 py-1 text-sm rounded border border-gray-300
+               focus:outline-none focus:ring-2 focus:ring-primary-500
+               focus:border-primary-500;
+      }
+
+      .color-picker {
+        @apply w-8 h-8 p-1 rounded border border-gray-300
+               focus:outline-none focus:ring-2 focus:ring-primary-500;
+      }
+    }
+  }
+
+  .editor-content {
+    @apply p-4 bg-white border border-gray-200 rounded-b-lg
+           prose prose-sm max-w-none
+           focus:outline-none focus:ring-2 focus:ring-primary-500
+           focus:border-primary-500;
+
+    &[contenteditable="false"] {
+      @apply bg-gray-50 cursor-not-allowed;
+    }
+  }
+
+  .editor-hint {
+    @apply text-sm text-gray-500;
+  }
+
+  .editor-error {
+    @apply text-sm text-error-500;
+  }
+
+  &.focused {
+    .editor-toolbar {
+      @apply border-primary-500;
+    }
+  }
+}
+
+// Size variants
+:host-context(.ui-size-sm) .ui-editor {
+  .editor-content {
+    @apply prose-xs;
+  }
+}
+
+:host-context(.ui-size-lg) .ui-editor {
+  .editor-content {
+    @apply prose-lg;
+  }
+}
+
+// Theme variants
+:host-context(.ui-theme-primary) .ui-editor {
+  .toolbar-button.active {
+    @apply bg-primary-100 text-primary-700;
+  }
+}
+
+:host-context(.ui-theme-secondary) .ui-editor {
+  .toolbar-button.active {
+    @apply bg-secondary-100 text-secondary-700;
+  }
+}
+
+:host-context(.ui-theme-success) .ui-editor {
+  .toolbar-button.active {
+    @apply bg-success-100 text-success-700;
+  }
+}
+
+:host-context(.ui-theme-error) .ui-editor {
+  .toolbar-button.active {
+    @apply bg-error-100 text-error-700;
+  }
+} 

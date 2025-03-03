@@ -1,0 +1,21 @@
+<div class="ui-input-otp" [class.focused]="focused">
+  <input
+    *ngFor="let value of values; let i = index"
+    [attr.data-index]="i"
+    type="text"
+    [maxLength]="1"
+    [value]="value"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [attr.aria-label]="'OTP digit ' + (i + 1) + ' of ' + length"
+    [attr.autocomplete]="i === 0 ? 'one-time-code' : 'off'"
+    [attr.inputmode]="type === 'numeric' ? 'numeric' : 'text'"
+    [attr.pattern]="type === 'numeric' ? '[0-9]*' : undefined"
+    (input)="onInput($event, i)"
+    (keydown)="onKeydown($event, i)"
+    (paste)="onPaste($event)"
+    (focus)="focused = true"
+    (blur)="focused = false; onTouched()"
+    [attr.autofocus]="autoFocus && i === 0 ? '' : null"
+  />
+</div> 

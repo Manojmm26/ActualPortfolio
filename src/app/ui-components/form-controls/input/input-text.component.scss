@@ -1,0 +1,148 @@
+.ui-input-text {
+  @apply relative w-full;
+
+  .input-container {
+    @apply relative flex flex-col;
+
+    &.focused {
+      .input-label {
+        @apply text-primary-500 transform -translate-y-5 scale-75;
+      }
+
+      .input-field {
+        @apply border-primary-500 ring-1 ring-primary-500;
+      }
+    }
+
+    &.filled {
+      .input-label {
+        @apply transform -translate-y-5 scale-75;
+      }
+    }
+
+    .input-field {
+      @apply w-full px-3 py-2 text-base
+             border rounded-md
+             bg-white text-gray-900
+             transition-all duration-200
+             focus:outline-none;
+
+      &:disabled {
+        @apply bg-gray-100 cursor-not-allowed;
+      }
+    }
+
+    .input-label {
+      @apply absolute left-3 top-2
+             text-gray-600
+             transition-all duration-200
+             origin-[0];
+
+      &.required::after {
+        content: '*';
+        @apply ml-1 text-error-500;
+      }
+    }
+
+    .input-hint {
+      @apply mt-1 text-sm text-gray-500;
+    }
+
+    .input-error {
+      @apply mt-1 text-sm text-error-500;
+    }
+  }
+
+  &.floating {
+    .input-container {
+      .input-field {
+        @apply pt-6 pb-2;
+      }
+
+      .input-label {
+        @apply top-5;
+      }
+
+      &.focused,
+      &.filled {
+        .input-label {
+          @apply top-2;
+        }
+      }
+    }
+  }
+}
+
+// Size variants
+:host-context(.ui-size-sm) .ui-input-text {
+  .input-field {
+    @apply px-2 py-1.5 text-sm;
+  }
+
+  &.floating .input-container {
+    .input-field {
+      @apply pt-5 pb-1.5;
+    }
+  }
+}
+
+:host-context(.ui-size-lg) .ui-input-text {
+  .input-field {
+    @apply px-4 py-3 text-lg;
+  }
+
+  &.floating .input-container {
+    .input-field {
+      @apply pt-7 pb-3;
+    }
+  }
+}
+
+// Theme variants
+:host-context(.ui-theme-primary) .ui-input-text {
+  .input-container.focused {
+    .input-label {
+      @apply text-primary-500;
+    }
+
+    .input-field {
+      @apply border-primary-500 ring-primary-500;
+    }
+  }
+}
+
+:host-context(.ui-theme-secondary) .ui-input-text {
+  .input-container.focused {
+    .input-label {
+      @apply text-secondary-500;
+    }
+
+    .input-field {
+      @apply border-secondary-500 ring-secondary-500;
+    }
+  }
+}
+
+:host-context(.ui-theme-success) .ui-input-text {
+  .input-container.focused {
+    .input-label {
+      @apply text-success-500;
+    }
+
+    .input-field {
+      @apply border-success-500 ring-success-500;
+    }
+  }
+}
+
+:host-context(.ui-theme-error) .ui-input-text {
+  .input-container.focused {
+    .input-label {
+      @apply text-error-500;
+    }
+
+    .input-field {
+      @apply border-error-500 ring-error-500;
+    }
+  }
+} 

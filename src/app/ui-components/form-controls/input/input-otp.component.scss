@@ -1,0 +1,101 @@
+.ui-input-otp {
+  @apply flex flex-col gap-2;
+
+  .otp-label {
+    @apply text-sm font-medium text-gray-700;
+
+    &.required::after {
+      content: '*';
+      @apply ml-1 text-error-500;
+    }
+  }
+
+  .otp-container {
+    @apply flex gap-2 items-center justify-center;
+
+    .otp-input {
+      @apply w-12 h-12
+             flex items-center justify-center
+             text-center text-2xl font-semibold
+             border rounded-lg
+             bg-white text-gray-900
+             transition-all duration-200
+             focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500;
+
+      &:disabled {
+        @apply bg-gray-100 text-gray-400 cursor-not-allowed;
+      }
+
+      // Hide number input spinners
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      &[type=number] {
+        -moz-appearance: textfield;
+      }
+    }
+  }
+
+  .otp-hint {
+    @apply text-sm text-gray-500;
+  }
+
+  .otp-error {
+    @apply text-sm text-error-500;
+  }
+
+  &.focused {
+    .otp-input {
+      @apply border-primary-300;
+    }
+  }
+}
+
+// Size variants
+:host-context(.ui-size-sm) .ui-input-otp {
+  .otp-container {
+    @apply gap-1;
+
+    .otp-input {
+      @apply w-10 h-10 text-xl;
+    }
+  }
+}
+
+:host-context(.ui-size-lg) .ui-input-otp {
+  .otp-container {
+    @apply gap-3;
+
+    .otp-input {
+      @apply w-14 h-14 text-3xl;
+    }
+  }
+}
+
+// Theme variants
+:host-context(.ui-theme-primary) .ui-input-otp {
+  &.focused .otp-input {
+    @apply focus:ring-primary-500 focus:border-primary-500;
+  }
+}
+
+:host-context(.ui-theme-secondary) .ui-input-otp {
+  &.focused .otp-input {
+    @apply focus:ring-secondary-500 focus:border-secondary-500;
+  }
+}
+
+:host-context(.ui-theme-success) .ui-input-otp {
+  &.focused .otp-input {
+    @apply focus:ring-success-500 focus:border-success-500;
+  }
+}
+
+:host-context(.ui-theme-error) .ui-input-otp {
+  &.focused .otp-input {
+    @apply focus:ring-error-500 focus:border-error-500;
+  }
+} 

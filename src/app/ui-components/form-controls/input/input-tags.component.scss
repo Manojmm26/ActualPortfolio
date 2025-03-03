@@ -1,0 +1,174 @@
+.ui-tags {
+  @apply flex flex-col gap-2;
+
+  .tags-label {
+    @apply text-sm font-medium text-gray-700;
+
+    &.required::after {
+      content: '*';
+      @apply ml-1 text-error-500;
+    }
+  }
+
+  .tags-container {
+    @apply relative;
+
+    &.disabled {
+      @apply opacity-60 cursor-not-allowed;
+
+      .tags-wrapper {
+        @apply bg-gray-100;
+      }
+    }
+
+    &.has-error .tags-wrapper {
+      @apply border-error-300 focus-within:ring-error-500 focus-within:border-error-500;
+    }
+  }
+
+  .tags-wrapper {
+    @apply flex flex-wrap gap-2 p-2 border rounded-lg bg-white
+           focus-within:outline-none focus-within:ring-2 focus-within:ring-primary-500 focus-within:border-primary-500
+           transition-all duration-200;
+
+    .tag {
+      @apply flex items-center gap-1 px-2 py-1 rounded-full bg-primary-100 text-primary-700
+             max-w-full break-all;
+
+      &.disabled {
+        @apply bg-gray-100 text-gray-500;
+      }
+
+      .tag-label {
+        @apply text-sm font-medium;
+      }
+
+      .remove-tag {
+        @apply flex items-center justify-center w-4 h-4 rounded-full
+               hover:bg-primary-200 transition-colors duration-200
+               disabled:cursor-not-allowed disabled:opacity-50;
+      }
+    }
+
+    .tag-input {
+      @apply flex-1 min-w-[100px] border-0 p-1 focus:outline-none bg-transparent
+             text-sm placeholder:text-gray-400 disabled:cursor-not-allowed;
+    }
+  }
+
+  .suggestions-dropdown {
+    @apply absolute z-10 w-full mt-1 py-1 bg-white border rounded-lg shadow-lg
+           max-h-60 overflow-y-auto;
+
+    .suggestion-item {
+      @apply px-3 py-2 text-sm cursor-pointer hover:bg-gray-100
+             transition-colors duration-200;
+
+      &.active {
+        @apply bg-primary-50 text-primary-700;
+      }
+    }
+  }
+
+  .tags-hint {
+    @apply text-sm text-gray-500;
+  }
+
+  .tags-error {
+    @apply text-sm text-error-500;
+  }
+}
+
+// Size variants
+:host-context(.ui-size-sm) .ui-tags {
+  .tags-wrapper {
+    @apply p-1.5 gap-1.5;
+
+    .tag {
+      @apply px-1.5 py-0.5;
+
+      .tag-label {
+        @apply text-xs;
+      }
+
+      .remove-tag {
+        @apply w-3.5 h-3.5;
+      }
+    }
+
+    .tag-input {
+      @apply text-xs min-w-[80px];
+    }
+  }
+
+  .suggestions-dropdown {
+    .suggestion-item {
+      @apply px-2 py-1.5 text-xs;
+    }
+  }
+}
+
+:host-context(.ui-size-lg) .ui-tags {
+  .tags-wrapper {
+    @apply p-3 gap-2.5;
+
+    .tag {
+      @apply px-3 py-1.5;
+
+      .tag-label {
+        @apply text-base;
+      }
+
+      .remove-tag {
+        @apply w-5 h-5;
+      }
+    }
+
+    .tag-input {
+      @apply text-base min-w-[120px];
+    }
+  }
+
+  .suggestions-dropdown {
+    .suggestion-item {
+      @apply px-4 py-2.5 text-base;
+    }
+  }
+}
+
+// Theme variants
+:host-context(.ui-theme-primary) .ui-tags {
+  .tags-wrapper .tag {
+    @apply bg-primary-100 text-primary-700;
+    .remove-tag {
+      @apply hover:bg-primary-200;
+    }
+  }
+}
+
+:host-context(.ui-theme-secondary) .ui-tags {
+  .tags-wrapper .tag {
+    @apply bg-secondary-100 text-secondary-700;
+    .remove-tag {
+      @apply hover:bg-secondary-200;
+    }
+  }
+}
+
+:host-context(.ui-theme-success) .ui-tags {
+  .tags-wrapper .tag {
+    @apply bg-success-100 text-success-700;
+    .remove-tag {
+      @apply hover:bg-success-200;
+    }
+  }
+}
+
+:host-context(.ui-theme-error) .ui-tags {
+  .tags-wrapper .tag {
+    @apply bg-error-100 text-error-700;
+    .remove-tag {
+      @apply hover:bg-error-200;
+    }
+  }
+} 

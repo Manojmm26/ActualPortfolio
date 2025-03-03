@@ -1,0 +1,179 @@
+.ui-textarea {
+  @apply relative w-full;
+
+  .textarea-container {
+    @apply relative flex flex-col;
+
+    &.focused {
+      .textarea-label {
+        @apply text-primary-500 transform -translate-y-5 scale-75;
+      }
+
+      .textarea-field {
+        @apply border-primary-500 ring-1 ring-primary-500;
+      }
+    }
+
+    &.filled {
+      .textarea-label {
+        @apply transform -translate-y-5 scale-75;
+      }
+    }
+
+    .textarea-field {
+      @apply w-full px-3 py-2 text-base
+             border rounded-md
+             bg-white text-gray-900
+             transition-all duration-200
+             focus:outline-none
+             resize-y;
+
+      &.auto-resize {
+        @apply resize-none overflow-hidden;
+      }
+
+      &:disabled {
+        @apply bg-gray-100 cursor-not-allowed;
+      }
+    }
+
+    .textarea-label {
+      @apply absolute left-3 top-2
+             text-gray-600
+             transition-all duration-200
+             origin-[0];
+
+      &.required::after {
+        content: '*';
+        @apply ml-1 text-error-500;
+      }
+    }
+
+    .textarea-footer {
+      @apply flex items-center justify-between mt-1;
+
+      .textarea-hint {
+        @apply text-sm text-gray-500;
+      }
+
+      .char-count {
+        @apply text-sm text-gray-500;
+      }
+    }
+
+    .textarea-error {
+      @apply mt-1 text-sm text-error-500;
+    }
+  }
+
+  &.floating {
+    .textarea-container {
+      .textarea-field {
+        @apply pt-6 pb-2;
+      }
+
+      .textarea-label {
+        @apply top-5;
+      }
+
+      &.focused,
+      &.filled {
+        .textarea-label {
+          @apply top-2;
+        }
+      }
+    }
+  }
+}
+
+// Size variants
+:host-context(.ui-size-sm) .ui-textarea {
+  .textarea-container {
+    .textarea-field {
+      @apply px-2 py-1.5 text-sm;
+    }
+
+    .textarea-footer {
+      .textarea-hint,
+      .char-count {
+        @apply text-xs;
+      }
+    }
+  }
+
+  &.floating .textarea-container {
+    .textarea-field {
+      @apply pt-5 pb-1.5;
+    }
+  }
+}
+
+:host-context(.ui-size-lg) .ui-textarea {
+  .textarea-container {
+    .textarea-field {
+      @apply px-4 py-3 text-lg;
+    }
+
+    .textarea-footer {
+      .textarea-hint,
+      .char-count {
+        @apply text-base;
+      }
+    }
+  }
+
+  &.floating .textarea-container {
+    .textarea-field {
+      @apply pt-7 pb-3;
+    }
+  }
+}
+
+// Theme variants
+:host-context(.ui-theme-primary) .ui-textarea {
+  .textarea-container.focused {
+    .textarea-label {
+      @apply text-primary-500;
+    }
+
+    .textarea-field {
+      @apply border-primary-500 ring-primary-500;
+    }
+  }
+}
+
+:host-context(.ui-theme-secondary) .ui-textarea {
+  .textarea-container.focused {
+    .textarea-label {
+      @apply text-secondary-500;
+    }
+
+    .textarea-field {
+      @apply border-secondary-500 ring-secondary-500;
+    }
+  }
+}
+
+:host-context(.ui-theme-success) .ui-textarea {
+  .textarea-container.focused {
+    .textarea-label {
+      @apply text-success-500;
+    }
+
+    .textarea-field {
+      @apply border-success-500 ring-success-500;
+    }
+  }
+}
+
+:host-context(.ui-theme-error) .ui-textarea {
+  .textarea-container.focused {
+    .textarea-label {
+      @apply text-error-500;
+    }
+
+    .textarea-field {
+      @apply border-error-500 ring-error-500;
+    }
+  }
+} 

@@ -1,0 +1,283 @@
+.ui-tree-select {
+  @apply flex flex-col gap-1;
+
+  .ui-tree-select-label {
+    @apply text-sm font-medium text-gray-700 flex items-center gap-1;
+
+    .required-indicator {
+      @apply text-error-500;
+    }
+  }
+
+  .ui-tree-select-wrapper {
+    @apply relative;
+
+    .selected-display {
+      @apply flex items-center justify-between w-full px-3 py-2 border rounded-lg
+             bg-white text-base cursor-pointer transition-all duration-200;
+
+      &.placeholder {
+        @apply text-gray-400;
+      }
+
+      &.disabled {
+        @apply bg-gray-100 text-gray-400 cursor-not-allowed;
+
+        .dropdown-arrow {
+          @apply text-gray-400;
+        }
+      }
+
+      .clear-button {
+        @apply flex items-center justify-center w-6 h-6 rounded-full
+               text-gray-400 hover:text-gray-600 hover:bg-gray-100
+               transition-colors duration-200;
+      }
+
+      .dropdown-arrow {
+        @apply w-5 h-5 text-gray-400 transition-transform duration-200;
+
+        &.expanded {
+          @apply transform rotate-180;
+        }
+      }
+
+      &:hover:not(.disabled) {
+        @apply border-primary-300;
+      }
+
+      &:focus {
+        @apply outline-none ring-2 ring-primary-500 border-primary-500;
+      }
+    }
+
+    .tree-dropdown {
+      @apply absolute z-50 w-full mt-1 bg-white rounded-lg shadow-lg border
+             max-h-60 overflow-hidden;
+
+      .filter-container {
+        @apply p-2 border-b;
+
+        .filter-input {
+          @apply w-full px-2 py-1 text-sm border rounded
+                 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500;
+        }
+      }
+
+      .tree-content {
+        @apply overflow-y-auto max-h-[calc(15rem-2.5rem)];
+
+        .no-nodes {
+          @apply p-3 text-sm text-gray-500 text-center;
+        }
+
+        .tree-node {
+          @apply text-sm;
+
+          .node-content {
+            @apply flex items-center px-3 py-2 hover:bg-gray-50 transition-colors duration-200;
+
+            .expand-toggle {
+              @apply w-5 h-5 flex items-center justify-center mr-1 text-gray-400
+                     transition-transform duration-200 cursor-pointer;
+
+              &.loading {
+                @apply animate-spin;
+              }
+
+              .expand-icon {
+                @apply w-4 h-4 transform transition-transform duration-200;
+              }
+            }
+
+            .node-template {
+              @apply flex-grow cursor-pointer;
+
+              .default-node {
+                @apply flex items-center gap-2;
+
+                .checkbox {
+                  @apply flex items-center justify-center;
+
+                  input {
+                    @apply w-4 h-4 rounded border-gray-300 text-primary-500
+                           focus:ring-primary-500 cursor-pointer
+                           disabled:cursor-not-allowed disabled:bg-gray-100;
+                  }
+                }
+
+                .node-label {
+                  @apply text-gray-700;
+                }
+              }
+            }
+          }
+
+          &.expanded > .node-content .expand-toggle .expand-icon {
+            @apply rotate-90;
+          }
+
+          &.selected > .node-content {
+            @apply bg-primary-50;
+
+            .node-template .default-node .node-label {
+              @apply text-primary-700;
+            }
+          }
+
+          &.disabled > .node-content {
+            @apply opacity-50 cursor-not-allowed;
+
+            .expand-toggle,
+            .node-template {
+              @apply cursor-not-allowed;
+            }
+          }
+
+          .child-nodes {
+            @apply pl-6;
+          }
+        }
+      }
+    }
+  }
+
+  &.focused {
+    .selected-display {
+      @apply border-primary-300;
+    }
+  }
+}
+
+// Loading Spinner Animation
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner {
+  @apply w-4 h-4 border-2 border-gray-300 border-t-primary-500 rounded-full;
+  animation: spin 1s linear infinite;
+}
+
+// Size variants
+:host-context(.ui-size-sm) .ui-tree-select {
+  .ui-tree-select-label {
+    @apply text-xs;
+  }
+
+  .ui-tree-select-wrapper {
+    .selected-display {
+      @apply px-2 py-1.5 text-sm;
+    }
+
+    .tree-dropdown {
+      .filter-container .filter-input {
+        @apply py-0.5 text-xs;
+      }
+
+      .tree-content .tree-node {
+        @apply text-xs;
+
+        .node-content {
+          @apply px-2 py-1.5;
+
+          .expand-toggle {
+            @apply w-4 h-4;
+
+            .expand-icon {
+              @apply w-3 h-3;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+:host-context(.ui-size-lg) .ui-tree-select {
+  .ui-tree-select-label {
+    @apply text-base;
+  }
+
+  .ui-tree-select-wrapper {
+    .selected-display {
+      @apply px-4 py-2.5 text-lg;
+    }
+
+    .tree-dropdown {
+      .filter-container .filter-input {
+        @apply py-1.5 text-base;
+      }
+
+      .tree-content .tree-node {
+        @apply text-base;
+
+        .node-content {
+          @apply px-4 py-2.5;
+
+          .expand-toggle {
+            @apply w-6 h-6;
+
+            .expand-icon {
+              @apply w-5 h-5;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Theme variants
+:host-context(.ui-theme-primary) .ui-tree-select {
+  .ui-tree-select-wrapper {
+    .selected-display:focus {
+      @apply ring-primary-500 border-primary-500;
+    }
+
+    .tree-dropdown .tree-content .tree-node.selected > .node-content {
+      @apply bg-primary-50;
+    }
+  }
+}
+
+:host-context(.ui-theme-secondary) .ui-tree-select {
+  .ui-tree-select-wrapper {
+    .selected-display:focus {
+      @apply ring-secondary-500 border-secondary-500;
+    }
+
+    .tree-dropdown .tree-content .tree-node.selected > .node-content {
+      @apply bg-secondary-50;
+    }
+  }
+}
+
+:host-context(.ui-theme-success) .ui-tree-select {
+  .ui-tree-select-wrapper {
+    .selected-display:focus {
+      @apply ring-success-500 border-success-500;
+    }
+
+    .tree-dropdown .tree-content .tree-node.selected > .node-content {
+      @apply bg-success-50;
+    }
+  }
+}
+
+:host-context(.ui-theme-error) .ui-tree-select {
+  .ui-tree-select-wrapper {
+    .selected-display:focus {
+      @apply ring-error-500 border-error-500;
+    }
+
+    .tree-dropdown .tree-content .tree-node.selected > .node-content {
+      @apply bg-error-50;
+    }
+  }
+} 

@@ -1,0 +1,137 @@
+.ui-switch {
+  @apply flex flex-col gap-2;
+
+  .switch-container {
+    @apply flex items-center gap-3;
+
+    &.disabled {
+      @apply cursor-not-allowed opacity-60;
+
+      .switch-label {
+        @apply text-gray-400;
+      }
+    }
+  }
+
+  .switch-input-container {
+    @apply relative inline-flex;
+
+    input[type="checkbox"] {
+      @apply sr-only;
+
+      &:focus + .switch-control {
+        @apply ring-2 ring-primary-500 ring-offset-2;
+      }
+
+      &:checked + .switch-control {
+        @apply bg-primary-500;
+
+        .switch-thumb {
+          @apply translate-x-5;
+        }
+      }
+
+      &:disabled + .switch-control {
+        @apply bg-gray-200;
+      }
+    }
+
+    .switch-control {
+      @apply h-6 w-11 rounded-full bg-gray-200
+             flex items-center transition-colors duration-200 ease-in-out;
+
+      .switch-thumb {
+        @apply h-5 w-5 rounded-full bg-white shadow
+               transform transition-transform duration-200 ease-in-out
+               translate-x-0.5;
+      }
+    }
+  }
+
+  .switch-label {
+    @apply text-sm font-medium text-gray-700;
+
+    &.required::after {
+      content: '*';
+      @apply ml-1 text-error-500;
+    }
+
+    .description-text {
+      @apply block text-sm text-gray-500 mt-1;
+    }
+  }
+
+  .switch-hint {
+    @apply text-sm text-gray-500;
+  }
+
+  .switch-error {
+    @apply text-sm text-error-500;
+  }
+}
+
+// Size variants
+:host-context(.ui-size-sm) .ui-switch {
+  .switch-input-container {
+    .switch-control {
+      @apply h-5 w-9;
+
+      .switch-thumb {
+        @apply h-4 w-4;
+      }
+    }
+
+    input[type="checkbox"]:checked + .switch-control .switch-thumb {
+      @apply translate-x-4;
+    }
+  }
+
+  .switch-label {
+    @apply text-xs;
+  }
+}
+
+:host-context(.ui-size-lg) .ui-switch {
+  .switch-input-container {
+    .switch-control {
+      @apply h-7 w-14;
+
+      .switch-thumb {
+        @apply h-6 w-6;
+      }
+    }
+
+    input[type="checkbox"]:checked + .switch-control .switch-thumb {
+      @apply translate-x-7;
+    }
+  }
+
+  .switch-label {
+    @apply text-base;
+  }
+}
+
+// Theme variants
+:host-context(.ui-theme-primary) .ui-switch {
+  input[type="checkbox"]:checked + .switch-control {
+    @apply bg-primary-500;
+  }
+}
+
+:host-context(.ui-theme-secondary) .ui-switch {
+  input[type="checkbox"]:checked + .switch-control {
+    @apply bg-secondary-500;
+  }
+}
+
+:host-context(.ui-theme-success) .ui-switch {
+  input[type="checkbox"]:checked + .switch-control {
+    @apply bg-success-500;
+  }
+}
+
+:host-context(.ui-theme-error) .ui-switch {
+  input[type="checkbox"]:checked + .switch-control {
+    @apply bg-error-500;
+  }
+} 

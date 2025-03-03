@@ -1,0 +1,95 @@
+.dialog-backdrop {
+  @apply fixed inset-0 z-50 flex items-center justify-center
+         bg-black bg-opacity-50 opacity-0 transition-opacity duration-300;
+
+  &.show {
+    @apply opacity-100;
+  }
+}
+
+.dialog-container {
+  @apply relative bg-white rounded-lg shadow-xl
+         opacity-0 transform scale-95 transition-all duration-300
+         max-h-[90vh] flex flex-col;
+
+  &.show {
+    @apply opacity-100 scale-100;
+  }
+
+  // Size variants
+  &.sm {
+    @apply w-full max-w-sm;
+  }
+
+  &.md {
+    @apply w-full max-w-md;
+  }
+
+  &.lg {
+    @apply w-full max-w-lg;
+  }
+
+  &.xl {
+    @apply w-full max-w-xl;
+  }
+
+  &.full {
+    @apply w-[95vw] h-[90vh];
+  }
+
+  // Header styles
+  .dialog-header {
+    @apply flex items-center justify-between p-4 border-b;
+
+    .dialog-title {
+      @apply text-lg font-semibold text-gray-900;
+    }
+
+    .dialog-close {
+      @apply w-6 h-6 text-gray-400 hover:text-gray-500
+             transition-colors duration-200;
+    }
+  }
+
+  // Content styles
+  .dialog-content {
+    @apply p-4 overflow-y-auto flex-1;
+
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+      @apply w-2;
+    }
+
+    &::-webkit-scrollbar-track {
+      @apply bg-gray-100 rounded-r-lg;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      @apply bg-gray-300 rounded-full hover:bg-gray-400
+             transition-colors duration-200;
+    }
+  }
+
+  // Footer styles
+  .dialog-footer {
+    @apply flex items-center justify-end gap-2 p-4 border-t bg-gray-50;
+
+    ::ng-deep [dialog-footer] {
+      @apply flex items-center gap-2;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 640px) {
+  .dialog-container {
+    @apply m-4;
+
+    &.sm,
+    &.md,
+    &.lg,
+    &.xl {
+      @apply max-w-none;
+    }
+  }
+} 

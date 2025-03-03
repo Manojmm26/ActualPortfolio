@@ -1,0 +1,332 @@
+.ui-date {
+  @apply relative w-full;
+
+  .input-container {
+    @apply relative flex flex-col;
+
+    &.focused {
+      .input-label {
+        @apply text-primary-500 transform -translate-y-5 scale-75;
+      }
+
+      .input-wrapper {
+        @apply ring-1 ring-primary-500;
+
+        .input-field {
+          @apply border-primary-500;
+        }
+      }
+    }
+
+    &.filled {
+      .input-label {
+        @apply transform -translate-y-5 scale-75;
+      }
+    }
+
+    .input-wrapper {
+      @apply relative flex items-center
+             rounded-md
+             transition-all duration-200;
+
+      .input-field {
+        @apply w-full pl-3 pr-10 py-2
+               border rounded-md
+               bg-white text-gray-900
+               transition-all duration-200
+               focus:outline-none;
+
+        &:disabled {
+          @apply bg-gray-100 cursor-not-allowed;
+        }
+      }
+
+      .calendar-button {
+        @apply absolute right-2
+               p-1.5 rounded-md
+               text-gray-500
+               hover:bg-gray-100
+               focus:outline-none focus:ring-2 focus:ring-primary-500
+               transition-colors duration-200;
+
+        &.disabled {
+          @apply opacity-50 cursor-not-allowed hover:bg-transparent;
+        }
+
+        .calendar-icon {
+          @apply text-lg;
+        }
+      }
+
+      .calendar-dropdown {
+        @apply absolute left-0 top-full mt-1
+               w-64 bg-white
+               rounded-md shadow-lg
+               border border-gray-200
+               z-20;
+
+        .calendar-header {
+          @apply flex items-center justify-between
+                 px-4 py-2
+                 border-b border-gray-200;
+
+          button {
+            @apply p-1 rounded-md
+                   text-gray-500
+                   hover:bg-gray-100
+                   focus:outline-none focus:ring-2 focus:ring-primary-500
+                   transition-colors duration-200;
+          }
+
+          span {
+            @apply text-sm font-medium text-gray-700;
+          }
+        }
+
+        .calendar-weekdays {
+          @apply grid grid-cols-7 gap-0.5 px-2 py-2;
+
+          .weekday {
+            @apply text-center text-xs font-medium text-gray-500;
+          }
+        }
+
+        .calendar-days {
+          @apply grid grid-cols-7 gap-0.5 p-2;
+
+          .day {
+            @apply flex items-center justify-center
+                   w-8 h-8 rounded-full
+                   text-sm
+                   hover:bg-gray-100
+                   focus:outline-none focus:ring-2 focus:ring-primary-500
+                   transition-colors duration-200;
+
+            &.today {
+              @apply font-bold text-primary-500;
+            }
+
+            &.selected {
+              @apply bg-primary-500 text-white hover:bg-primary-600;
+            }
+
+            &.other-month {
+              @apply text-gray-400;
+            }
+
+            &:disabled {
+              @apply opacity-50 cursor-not-allowed hover:bg-transparent;
+            }
+          }
+        }
+
+        .calendar-footer {
+          @apply flex items-center justify-between
+                 px-4 py-2
+                 border-t border-gray-200;
+
+          button {
+            @apply px-3 py-1
+                   text-sm text-gray-700
+                   hover:bg-gray-100 rounded-md
+                   focus:outline-none focus:ring-2 focus:ring-primary-500
+                   transition-colors duration-200;
+          }
+        }
+      }
+    }
+
+    .input-label {
+      @apply absolute left-3 top-2
+             text-gray-600
+             transition-all duration-200
+             origin-[0];
+
+      &.required::after {
+        content: '*';
+        @apply ml-1 text-error-500;
+      }
+    }
+
+    .input-hint {
+      @apply mt-1 text-sm text-gray-500;
+    }
+
+    .input-error {
+      @apply mt-1 text-sm text-error-500;
+    }
+  }
+
+  &.floating {
+    .input-container {
+      .input-wrapper .input-field {
+        @apply pt-6 pb-2;
+      }
+
+      .input-label {
+        @apply top-5;
+      }
+
+      &.focused,
+      &.filled {
+        .input-label {
+          @apply top-2;
+        }
+      }
+    }
+  }
+}
+
+// Size variants
+:host-context(.ui-size-sm) .ui-date {
+  .input-container {
+    .input-wrapper {
+      .input-field {
+        @apply px-2 py-1.5 text-sm;
+      }
+
+      .calendar-button {
+        @apply p-1;
+
+        .calendar-icon {
+          @apply text-base;
+        }
+      }
+
+      .calendar-dropdown {
+        @apply w-56;
+
+        .calendar-header {
+          @apply px-3 py-1.5;
+
+          span {
+            @apply text-xs;
+          }
+        }
+
+        .calendar-days .day {
+          @apply w-6 h-6 text-xs;
+        }
+
+        .calendar-footer button {
+          @apply px-2 py-0.5 text-xs;
+        }
+      }
+    }
+  }
+
+  &.floating .input-container {
+    .input-wrapper .input-field {
+      @apply pt-5 pb-1.5;
+    }
+  }
+}
+
+:host-context(.ui-size-lg) .ui-date {
+  .input-container {
+    .input-wrapper {
+      .input-field {
+        @apply px-4 py-3 text-lg;
+      }
+
+      .calendar-button {
+        @apply p-2;
+
+        .calendar-icon {
+          @apply text-xl;
+        }
+      }
+
+      .calendar-dropdown {
+        @apply w-72;
+
+        .calendar-header {
+          @apply px-5 py-2.5;
+
+          span {
+            @apply text-base;
+          }
+        }
+
+        .calendar-days .day {
+          @apply w-10 h-10 text-base;
+        }
+
+        .calendar-footer button {
+          @apply px-4 py-1.5 text-base;
+        }
+      }
+    }
+  }
+
+  &.floating .input-container {
+    .input-wrapper .input-field {
+      @apply pt-7 pb-3;
+    }
+  }
+}
+
+// Theme variants
+:host-context(.ui-theme-primary) .ui-date {
+  .input-container.focused {
+    .input-label {
+      @apply text-primary-500;
+    }
+
+    .input-wrapper {
+      @apply ring-primary-500;
+
+      .input-field {
+        @apply border-primary-500;
+      }
+    }
+  }
+}
+
+:host-context(.ui-theme-secondary) .ui-date {
+  .input-container.focused {
+    .input-label {
+      @apply text-secondary-500;
+    }
+
+    .input-wrapper {
+      @apply ring-secondary-500;
+
+      .input-field {
+        @apply border-secondary-500;
+      }
+    }
+  }
+}
+
+:host-context(.ui-theme-success) .ui-date {
+  .input-container.focused {
+    .input-label {
+      @apply text-success-500;
+    }
+
+    .input-wrapper {
+      @apply ring-success-500;
+
+      .input-field {
+        @apply border-success-500;
+      }
+    }
+  }
+}
+
+:host-context(.ui-theme-error) .ui-date {
+  .input-container.focused {
+    .input-label {
+      @apply text-error-500;
+    }
+
+    .input-wrapper {
+      @apply ring-error-500;
+
+      .input-field {
+        @apply border-error-500;
+      }
+    }
+  }
+} 

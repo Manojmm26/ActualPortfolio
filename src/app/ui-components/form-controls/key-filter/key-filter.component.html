@@ -1,0 +1,25 @@
+<div class="ui-key-filter" [class.focused]="focused" [class.invalid]="!isValid">
+  <label *ngIf="label" [for]="id" class="ui-key-filter-label">{{ label }}</label>
+  <div class="ui-key-filter-wrapper">
+    <input
+      [id]="id"
+      type="text"
+      [value]="value"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      [attr.aria-label]="label || placeholder"
+      [attr.aria-invalid]="!isValid"
+      (keypress)="onKeyPress($event)"
+      (input)="onInput($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+    />
+    <div 
+      *ngIf="showValidationHint && !isValid" 
+      class="ui-key-filter-hint"
+      role="alert"
+      [attr.aria-live]="'polite'">
+      {{ getValidationMessage() }}
+    </div>
+  </div>
+</div> 

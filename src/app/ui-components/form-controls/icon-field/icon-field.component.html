@@ -1,0 +1,60 @@
+<div class="ui-icon-field" [class.focused]="focused">
+  <label *ngIf="label" [for]="id" class="ui-icon-field-label">
+    {{ label }}
+    <span *ngIf="required" class="required-indicator" aria-hidden="true">*</span>
+  </label>
+  
+  <div class="ui-icon-field-wrapper">
+    <!-- Leading Icon -->
+    <div *ngIf="leadingIcon || leadingIconTemplate" 
+         class="leading-icon"
+         [class.clickable]="iconClickable"
+         [class.disabled]="disabled"
+         (click)="onLeadingIconClick($event)"
+         [attr.role]="iconClickable ? 'button' : null"
+         [attr.tabindex]="iconClickable && !disabled ? 0 : null"
+         [attr.aria-label]="iconClickable ? 'Click to trigger leading icon action' : null">
+      <ng-container *ngTemplateOutlet="leadingIconTemplate || defaultLeadingIcon"></ng-container>
+    </div>
+    <ng-template #defaultLeadingIcon>
+      <i [class]="leadingIcon" aria-hidden="true"></i>
+    </ng-template>
+
+    <!-- Input Field -->
+    <input
+      [id]="id"
+      [type]="type"
+      [value]="value"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      [required]="required"
+      [attr.autocomplete]="autoComplete"
+      [attr.aria-label]="label || placeholder"
+      [class.has-leading-icon]="leadingIcon || leadingIconTemplate"
+      [class.has-trailing-icon]="trailingIcon || trailingIconTemplate || (clearable && value)"
+      (input)="onInput($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+    />
+
+    <!-- Trailing Icon -->
+    <div *ngIf="trailingIcon || trailingIconTemplate || (clearable && value)" 
+         class="trailing-icon"
+         [class.clickable]="iconClickable || clearable"
+         [class.disabled]="disabled"
+         (click)="onTrailingIconClick($event)"
+         [attr.role]="(iconClickable || clearable) ? 'button' : null"
+         [attr.tabindex]="(iconClickable || clearable) && !disabled ? 0 : null"
+         [attr.aria-label]="clearable ? 'Clear input' : 'Click to trigger trailing icon action'">
+      <ng-container *ngIf="clearable && value; else customTrailingIcon">
+        <i class="clear-icon" aria-hidden="true">×</i>
+      </ng-container>
+      <ng-template #customTrailingIcon>
+        <ng-container *ngTemplateOutlet="trailingIconTemplate || defaultTrailingIcon"></ng-container>
+      </ng-template>
+    </div>
+    <ng-template #defaultTrailingIcon>
+      <i [class]="trailingIcon" aria-hidden="true"></i>
+    </ng-template>
+  </div>
+</div> 
