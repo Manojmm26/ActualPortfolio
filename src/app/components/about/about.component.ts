@@ -31,13 +31,12 @@ import { MatIconModule } from '@angular/material/icon';
       <div class="about-content" @fadeInUp>
         <div class="profile-header">
           <div class="profile-image">
-            <!-- Add your profile image here -->
-            <img src="assets/profile.jpg" alt="Profile" />
+            <img src="assets/profile.jpg" alt="Manoj Singh Mehta" />
           </div>
           <div class="profile-intro">
-            <h1>John Doe</h1>
-            <h2>Senior Full Stack Developer</h2>
-            <p class="tagline">Crafting robust digital solutions with modern technologies</p>
+            <h1>Manoj Singh Mehta</h1>
+            <h2>Angular Developer</h2>
+            <p class="tagline">Web Technologies | Solution Development | UI Implementation</p>
           </div>
         </div>
 
@@ -46,10 +45,10 @@ import { MatIconModule } from '@angular/material/icon';
             <div class="bio-section">
               <h3>Professional Summary</h3>
               <p>
-                Detail-oriented Full Stack Developer with 5+ years of experience in building
-                scalable web applications. Specializing in JavaScript/TypeScript ecosystem
-                with expertise in Angular, React, and Node.js. Passionate about clean code,
-                performance optimization, and creating exceptional user experiences.
+                Dedicated Angular Developer with extensive experience in web technologies including JavaScript, HTML, and CSS. 
+                Specialized in developing solutions in the automotive sector. Excel in creating efficient applications while 
+                collaborating with cross-functional teams. Driven by continuous learning and growth, eager to solve complex 
+                challenges and improve user experiences.
               </p>
             </div>
 
@@ -58,7 +57,7 @@ import { MatIconModule } from '@angular/material/icon';
               <div class="skills-grid">
                 <div *ngFor="let skill of topSkills" class="skill-card" @fadeInUp>
                   <div class="skill-header">
-                    <i [class]="skill.icon"></i>
+                  <i [class]="skill.icon"></i>
                     <h4>{{ skill.name }}</h4>
                   </div>
                   <div class="skill-level">
@@ -99,12 +98,13 @@ import { MatIconModule } from '@angular/material/icon';
                     <h4>{{edu.degree}}</h4>
                     <p>{{edu.institution}}</p>
                     <p class="edu-year">{{edu.year}}</p>
+                    <p class="edu-gpa">GPA: {{edu.gpa}}</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="project-highlights" @staggerFade>
+            <!-- <div class="project-highlights" @staggerFade>
               <h3>Featured Projects</h3>
               <div class="projects-grid">
                 <div *ngFor="let project of featuredProjects" class="project-card">
@@ -122,14 +122,14 @@ import { MatIconModule } from '@angular/material/icon';
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <div class="metrics-section">
               <h3>Professional Metrics</h3>
               <div class="metrics-grid">
                 <div class="metric-card" *ngFor="let metric of professionalMetrics">
                   <div class="metric-icon">
-                    <i [class]="metric.icon"></i>
+                    <mat-icon>{{ metric.icon }}</mat-icon>
                   </div>
                   <div class="metric-content">
                     <h4>{{ metric.title }}</h4>
@@ -146,20 +146,28 @@ import { MatIconModule } from '@angular/material/icon';
               <h3>Quick Info</h3>
               <ul class="info-list">
                 <li>
-                  <mat-icon>location_on</mat-icon>
-                  <span>{{location}}</span>
+                  <mat-icon>call</mat-icon>
+                  <span>+91-8198896310</span>
                 </li>
                 <li>
-                  <mat-icon>language</mat-icon>
+                  <mat-icon>mail</mat-icon>
+                  <span>{{'manojmehta6996@gmail.com'}}</span>
+                </li>
+                <li>
+                  <mat-icon>place</mat-icon>
+                  <span>NCR</span>
+                </li>
+                <li>
+                  <mat-icon>public</mat-icon>
                   <span>Available Worldwide</span>
                 </li>
                 <li>
-                  <mat-icon>schedule</mat-icon>
+                  <mat-icon>access_time</mat-icon>
                   <span>{{availability}}</span>
                 </li>
               </ul>
               <button class="download-cv" (click)="downloadResume()">
-                <mat-icon>download</mat-icon>
+                <mat-icon>file_download</mat-icon>
                 Download Resume
               </button>
             </div>
@@ -254,7 +262,7 @@ import { MatIconModule } from '@angular/material/icon';
         gap: var(--spacing-sm);
       }
 
-      i {
+      mat-icon {
         font-size: 2rem;
         color: var(--color-primary);
       }
@@ -342,11 +350,12 @@ import { MatIconModule } from '@angular/material/icon';
     .timeline {
       position: relative;
       margin: var(--spacing-lg) 0;
+      padding-left: var(--spacing-xl);
       
       &::before {
         content: '';
         position: absolute;
-        left: 0;
+        left: var(--spacing-xl);
         top: 0;
         height: 100%;
         width: 2px;
@@ -356,18 +365,30 @@ import { MatIconModule } from '@angular/material/icon';
 
     .timeline-item {
       position: relative;
-      padding-left: var(--spacing-xl);
       margin-bottom: var(--spacing-xl);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
 
     .timeline-marker {
       position: absolute;
       left: -6px;
+      top: 35px;
       width: 14px;
       height: 14px;
       border-radius: 50%;
       background: var(--color-primary);
       border: 2px solid var(--color-surface);
+    }
+
+    .timeline-content {
+      background: var(--color-card-background);
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius);
+      box-shadow: 0 2px 8px var(--color-shadow);
+      
     }
 
     .education-grid {
@@ -384,6 +405,29 @@ import { MatIconModule } from '@angular/material/icon';
       background: var(--color-card-background);
       border-radius: var(--border-radius);
       box-shadow: 0 2px 8px var(--color-shadow);
+    }
+
+    .edu-details {
+      flex: 1;
+
+      h4 {
+        color: var(--color-text);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      p {
+        color: var(--color-text-secondary);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .edu-year {
+        font-size: var(--font-size-sm);
+      }
+
+      .edu-gpa {
+        color: var(--color-primary);
+        font-weight: 500;
+      }
     }
 
     .projects-grid {
@@ -489,21 +533,37 @@ import { MatIconModule } from '@angular/material/icon';
       }
 
       .timeline {
+        padding-left: 0;
+        margin-left: var(--spacing-xl); /* Adjusted from 50% to fixed value */
+        
         &::before {
-          left: 50%;
-          transform: translateX(-50%);
+          left: 0;
         }
       }
 
       .timeline-item {
         padding-left: 0;
-        padding-top: var(--spacing-lg);
-        text-align: center;
+        
+        .timeline-marker {
+          left: -7px;
+        }
+
+        .timeline-content {
+          margin-left: var(--spacing-xl);
+        }
+      }
+    }
+
+    @media (max-width: 480px) {
+      .timeline {
+        margin-left: var(--spacing-md); /* Adjust for smaller screens */
       }
 
-      .timeline-marker {
-        left: 50%;
-        transform: translateX(-50%);
+      .timeline-item {
+        .timeline-content {
+          margin-left: var(--spacing-md);
+          padding: var(--spacing-md);
+        }
       }
     }
   `]
@@ -512,47 +572,87 @@ export class AboutComponent implements OnInit {
   topSkills: Skill[] = [];
   professionalMetrics = [
     {
-      icon: 'fas fa-code-branch',
-      title: 'Projects Delivered',
-      value: '20+',
-      description: 'Successfully completed projects across various industries'
-    },
-    {
-      icon: 'fas fa-clock',
+      icon: 'code',
       title: 'Years of Experience',
       value: '5+',
-      description: 'Professional experience in software development'
+      description: 'Professional experience in Angular development'
     },
     {
-      icon: 'fas fa-award',
-      title: 'Certifications',
-      value: '4',
-      description: 'Professional certifications in modern technologies'
+      icon: 'account_tree',
+      title: 'Major Projects',
+      value: '4+',
+      description: 'Including automotive and financial sector solutions'
+    },
+    {
+      icon: 'group',
+      title: 'Team Leadership',
+      value: '2+',
+      description: 'Years of team mentorship and technical leadership'
     }
   ];
 
   workHistory = [
     {
-      title: 'Senior Full Stack Developer',
-      company: 'Tech Corp',
-      period: '2020 - Present',
+      title: 'Angular Senior Developer [Kia Workspace]',
+      company: 'Tata Technologies',
+      period: '09/2024 - Present',
       achievements: [
-        'Led development of microservices architecture',
-        'Improved system performance by 40%',
-        'Mentored junior developers'
+        'Design and oversee implementation of microfrontend architecture',
+        'Define standards for communication between microfrontends',
+        'Guide development team in Angular best practices',
+        'Implement strategies to optimize loading times and performance'
+      ]
+    },
+    {
+      title: 'Angular Senior Developer [Glovis Autobell]',
+      company: 'Tata Technologies',
+      period: '12/2023 - 09/2024',
+      achievements: [
+        'Developed Dealer Management system for Logistics and Auction department',
+        'Implemented lazy loading module to improve performance',
+        'Created reusable Angular components and modules',
+        'Implemented JWT token-based authentication'
+      ]
+    },
+    {
+      title: 'Angular Developer [D2C Hyundai]',
+      company: 'Tata Technologies',
+      period: '07/2022 - 11/2023',
+      achievements: [
+        'Created D2C application for upcoming electric car',
+        'Managed front-end structure creation to production deployment',
+        'Designed and developed user interfaces',
+        'Created multiple Reactive forms with validation'
+      ]
+    },
+    {
+      title: 'Associate Software Engineer',
+      company: 'Accenture',
+      period: '05/2019 - 07/2022',
+      achievements: [
+        'Developed Financial Web app for bank agents',
+        'Worked with Feature Modules and reactive forms',
+        'Developed dynamic web pages using modern technologies',
+        'Coordinated design efforts with development team'
       ]
     }
-    // Add more work history items
   ];
 
   education = [
     {
       icon: 'school',
-      degree: 'BSc Computer Science',
-      institution: 'University Name',
-      year: '2018'
+      degree: 'Bachelors in Computer Applications',
+      institution: 'Lovely Professional University',
+      year: '2018',
+      gpa: '8.88/10'
+    },
+    {
+      icon: 'school',
+      degree: 'Diploma in Mechanical Engineering',
+      institution: 'Lovely Professional University',
+      year: '2016',
+      gpa: '9.33/10'
     }
-    // Add more education items
   ];
 
   featuredProjects = [
@@ -567,7 +667,7 @@ export class AboutComponent implements OnInit {
     // Add more projects
   ];
 
-  location = 'New York, USA';
+  location = 'NCR, India';
   availability = 'Full-time';
 
   constructor(private skillsService: SkillsService) {}
@@ -577,6 +677,11 @@ export class AboutComponent implements OnInit {
   }
 
   downloadResume() {
-    // Implement resume download logic
+    // Add download logic
+    const link = document.createElement('a');
+    link.href = 'assets/pdf/ManojMehtaResume.pdf';
+    link.download = 'ManojMehtaResume.pdf';
+    link.click();
+
   }
 }
