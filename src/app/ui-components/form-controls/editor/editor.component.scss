@@ -1,5 +1,5 @@
 .ui-editor {
-  @apply flex flex-col gap-2;
+  @apply flex flex-col gap-2 w-full;
 
   .editor-label {
     @apply text-sm font-medium text-gray-700;
@@ -11,28 +11,20 @@
   }
 
   .editor-toolbar {
-    @apply flex flex-wrap gap-2 p-2 bg-gray-50 border border-gray-200 rounded-t-lg;
+    @apply flex items-center gap-2 p-2 bg-gray-50 border border-gray-200 rounded-t-lg;
 
     .toolbar-group {
-      @apply flex items-center gap-1;
-
-      &:not(:last-child) {
-        @apply pr-2 border-r border-gray-200;
-      }
+      @apply flex items-center gap-1 border-r border-gray-200 pr-2 last:border-r-0;
 
       .toolbar-button {
         @apply flex items-center justify-center w-8 h-8
                rounded transition-colors duration-200
                text-gray-600 hover:text-gray-900
-               hover:bg-gray-200 focus:outline-none
-               focus:ring-2 focus:ring-primary-500;
+               hover:bg-gray-200 disabled:opacity-50
+               disabled:cursor-not-allowed;
 
         &.active {
           @apply bg-primary-100 text-primary-700;
-        }
-
-        &:disabled {
-          @apply opacity-50 cursor-not-allowed;
         }
       }
 
@@ -52,8 +44,7 @@
   .editor-content {
     @apply p-4 bg-white border border-gray-200 rounded-b-lg
            prose prose-sm max-w-none
-           focus:outline-none focus:ring-2 focus:ring-primary-500
-           focus:border-primary-500;
+           focus:outline-none focus:ring-2 focus:ring-primary-500;
 
     &[contenteditable="false"] {
       @apply bg-gray-50 cursor-not-allowed;
@@ -76,15 +67,21 @@
 }
 
 // Size variants
-:host-context(.ui-size-sm) .ui-editor {
-  .editor-content {
-    @apply prose-xs;
-  }
+:host-context(.ui-size-sm) .ui-editor .editor-content {
+  @apply prose-xs max-w-none;
 }
 
-:host-context(.ui-size-lg) .ui-editor {
+:host-context(.ui-size-base) .ui-editor .editor-content {
+  @apply prose-base max-w-none;
+}
+
+:host-context(.ui-size-lg) .ui-editor .editor-content {
+  @apply prose-lg max-w-none;
+}
+
+:host-context(.ui-size-xl) .ui-editor {
   .editor-content {
-    @apply prose-lg;
+    @apply prose-xl;
   }
 }
 
@@ -111,4 +108,4 @@
   .toolbar-button.active {
     @apply bg-error-100 text-error-700;
   }
-} 
+}

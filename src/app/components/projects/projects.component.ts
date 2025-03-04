@@ -152,7 +152,8 @@ import { CommonModule } from '@angular/common';
 
     .project-thumbnail {
       position: relative;
-      padding-top: 56.25%; // 16:9 aspect ratio
+      width: 100%;
+      padding-top: /* 16:9 aspect ratio */ 56.25%;
 
       img {
         position: absolute;
@@ -290,4 +291,4 @@ export class ProjectsComponent implements OnInit {
           observer.complete();
         });
   }
-} 
+}

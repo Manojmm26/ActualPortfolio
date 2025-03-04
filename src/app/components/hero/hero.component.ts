@@ -463,8 +463,10 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
   currentColorScheme = 'nature';
 
   private isMobile = false;
-  private readonly MOBILE_PARTICLE_COUNT = 500;
+  private readonly MOBILE_PARTICLE_COUNT = 500; // Increased from 300
   private readonly DESKTOP_PARTICLE_COUNT = 2000;
+  private readonly MOBILE_SPREAD = 25; // Increased spread for better visibility
+  private readonly DESKTOP_SPREAD = 40;
 
   particleSize: number = 1.0;
 
@@ -532,8 +534,14 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private checkDeviceType() {
-    this.isMobile = window.innerWidth <= 768;
+    // Check for touch support as well as screen size
+    this.isMobile = ('ontouchstart' in window) || window.innerWidth <= 768;
     this.particleCount = this.isMobile ? this.MOBILE_PARTICLE_COUNT : this.DESKTOP_PARTICLE_COUNT;
+
+    // Reinitialize particle system if necessary
+    if (this.particles && this.scene) {
+      this.updateParticleSystem();
+    }
   }
 
   private initThreeJS() {
@@ -541,37 +549,29 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
     this.scene = new THREE.Scene();
     
     // Camera setup with wider field of view and better position
-    const fov = 75;
+    const fov = this.isMobile ? 60 : 75; // Reduced FOV for mobile
     const width = window.innerWidth;  // Use full window width
     const height = window.innerHeight;
     const aspect = width / height;
     this.camera = new THREE.PerspectiveCamera(fov, aspect, 0.1, 1000);
-    this.camera.position.z = this.isMobile ? 40 : 30;  // Move camera further back
+    this.camera.position.z = this.isMobile ? 35 : 30;  // Moved camera further back on mobile
     
     // Renderer setup
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvasRef.nativeElement,
       alpha: true,
-      antialias: true,
+      antialias: false, // Disable antialiasing on mobile for better performance
       powerPreference: 'high-performance'
     });
     if (this.isMobile) {
       this.renderer.setPixelRatio(1);
       this.renderer.setSize(width, height, false); // false to avoid setting canvas style
+      this.renderer.setClearColor(0x000000, 0); // Made background fully transparent
     } else {
       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       this.renderer.setSize(width, height);
+      this.renderer.setClearColor(0x000000, 0); // Transparent background
     }
-    this.renderer.setClearColor(0x000000, 0); // Transparent background
-
-    console.log('Canvas dimensions:', width, height);
-    console.log('Camera position:', this.camera.position);
-    console.log('Renderer initialized:', this.renderer.getContext());
-
-    // Raycaster setup
-    this.raycaster = new THREE.Raycaster();
-
-    // Lighting
     const ambientLight = new THREE.AmbientLight(0x404040, 2);
     const directionalLight = new THREE.DirectionalLight(0x4CAF50, 1);
     directionalLight.position.set(1, 1, 1);
@@ -579,7 +579,7 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private createParticleSystem() {
-    this.particleCount = 2000;
+    this.particleCount = this.isMobile ? this.MOBILE_PARTICLE_COUNT : this.DESKTOP_PARTICLE_COUNT;
     const positions = new Float32Array(this.particleCount * 3);
     const colors = new Float32Array(this.particleCount * 3);
     const sizes = new Float32Array(this.particleCount);
@@ -587,7 +587,7 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
     const velocities = new Float32Array(this.particleCount * 3);
     const phases = new Float32Array(this.particleCount);
 
-    const spread = this.isMobile ? 30 : 40;
+    const spread = this.isMobile ? this.MOBILE_SPREAD : this.DESKTOP_SPREAD;
     const colorPalette = [
       new THREE.Color(0x4CAF50), // Green
       new THREE.Color(0x2196F3), // Blue
@@ -623,7 +623,7 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
       colors[i * 3 + 2] = color.b;
 
       sizes[i] = this.isMobile ? 
-        (Math.random() * 0.3 + 0.1) : // Smaller particles on mobile
+        (Math.random() * 0.5 + 0.3) : // Increased particle size on mobile
         (Math.random() * 0.5 + 0.1);
     }
 
@@ -881,19 +881,17 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Dynamic rotation based on mouse position and velocity
     if (this.isMobile) {
-      const rotationSpeed = 0.05; // Slower rotation on mobile
-      this.particles.rotation.y = Math.sin(time * rotationSpeed) * 0.05;
-      this.particles.rotation.x = Math.cos(time * rotationSpeed) * 0.05;
+      const rotationSpeed = 0.03; // Reduced rotation speed on mobile for better visibility
+      this.particles.rotation.y = Math.sin(time * rotationSpeed) * 0.1;
+      this.particles.rotation.x = Math.cos(time * rotationSpeed) * 0.1;
     } else {
       const rotationSpeed = 0.1;
       this.particles.rotation.y = Math.sin(time * rotationSpeed) * 0.1 + this.mouse.x * 0.2;
       this.particles.rotation.x = Math.cos(time * rotationSpeed) * 0.1 + this.mouse.y * 0.2;
     }
     
-    // Throttle frame rate on mobile
-    if (!this.isMobile || this.clock.getElapsedTime() % 2 === 0) {
-      this.renderer.render(this.scene, this.camera);
-    }
+    // Remove frame rate throttling on mobile
+    this.renderer.render(this.scene, this.camera);
   }
 
   private updateSceneOnScroll(scrollPos: number) {

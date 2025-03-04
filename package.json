@@ -9,7 +9,9 @@
     "test": "ng test",
     "e2e": "ng e2e",
     "lint": "ng lint",
-    "analyze": "ng build --stats-json && webpack-bundle-analyzer dist/angular-portfolio/stats.json"
+    "analyze": "ng build --stats-json && webpack-bundle-analyzer dist/angular-portfolio/stats.json",
+    "build:prod": "ng build --configuration production --base-href /ActualPortfolio/",
+    "deploy": "npx angular-cli-ghpages --dir=dist/angular-portfolio"
   },
   "private": true,
   "dependencies": {
@@ -28,6 +30,7 @@
     "@ngrx/entity": "^17.2.0",
     "@ngrx/store": "^17.2.0",
     "@ngrx/store-devtools": "^17.2.0",
+    "angular-cli-ghpages": "^2.0.3",
     "cloudinary-angular": "^1.0.1",
     "graphql": "^16.10.0",
     "gsap": "^3.12.7",
@@ -40,6 +43,7 @@
     "@angular-devkit/build-angular": "^17.1.0",
     "@angular/cli": "^17.1.0",
     "@angular/compiler-cli": "^17.1.0",
+    "@tailwindcss/typography": "^0.5.16",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.18.0",
     "@types/three": "^0.161.2",
@@ -57,6 +61,8 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "postcss": "^8.5.3",
+    "postcss-import": "^16.1.0",
+    "postcss-nesting": "^13.0.1",
     "tailwindcss": "^3.4.17",
     "typescript": "~5.3.2",
     "webpack-bundle-analyzer": "^4.10.2"
