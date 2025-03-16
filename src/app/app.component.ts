@@ -28,6 +28,9 @@ import { ThemeToggleComponent } from './components/shared/theme-toggle/theme-tog
             <a routerLink="/interactive-universe" class="nav-link" routerLinkActive="active">
               <span class="nav-icon">🌌</span>Universe
             </a>
+            <a routerLink="/hilbert-curve" class="nav-link" routerLinkActive="active">
+              <span class="nav-icon">🔲</span>Hilbert Curve
+            </a>
             <a routerLink="/ui-components" class="nav-link" routerLinkActive="active">
               <span class="nav-icon">🎨</span>UI Components
             </a>

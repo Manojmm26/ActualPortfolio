@@ -7,6 +7,7 @@ import { DemoComponent } from './ui-components/demo/demo.component';
 import { InteractiveUniverseComponent } from './components/interactive-universe/interactive-universe.component';
 import { ParticleTextComponent } from './components/particle-text/particle-text.component';
 import { DigitalRainComponent } from './components/digital-rain/digital-rain.component';
+import { HilbertCurveComponent } from './components/hilbert-curve/hilbert-curve.component';
 
 export const routes: Routes = [
   { path: '', component: HeroComponent },
@@ -17,5 +18,6 @@ export const routes: Routes = [
   { path: 'interactive-universe', component: InteractiveUniverseComponent },
   { path: 'particle-text', component: ParticleTextComponent },
   { path: 'digital-rain', component: DigitalRainComponent },
+  {path: 'hilbert-curve', component: HilbertCurveComponent},
   { path: '**', redirectTo: '' }
 ];

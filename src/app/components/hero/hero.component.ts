@@ -53,6 +53,22 @@ import { CommonModule } from '@angular/common';
           <i class="fas" [class]="scheme.icon"></i>
         </button>
       </div>
+
+      <!-- Size Control -->
+      <div class="canvas-controls size-control">
+        <label class="size-label">
+          <i class="fas fa-expand-alt"></i>
+          <input 
+            type="range" 
+            [min]="0.1" 
+            [max]="2" 
+            [step]="0.1"
+            [value]="particleSize"
+            (input)="changeParticleSize($event)"
+            class="size-slider"
+          >
+        </label>
+      </div>
     </section>
   `,
   styles: [`
@@ -311,6 +327,69 @@ import { CommonModule } from '@angular/common';
         margin: var(--spacing-xl) auto;
       }
     }
+
+    .size-control {
+      bottom: var(--spacing-lg);
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0.6;
+    }
+
+    .size-label {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      color: var(--color-text);
+    }
+
+    .size-slider {
+      width: 120px;
+      height: 4px;
+      -webkit-appearance: none;
+      background: var(--color-surface-hover);
+      border-radius: var(--border-radius);
+      outline: none;
+      opacity: 0.8;
+      transition: opacity var(--transition-duration) ease;
+    }
+
+    .size-slider:hover {
+      opacity: 1;
+    }
+
+    .size-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--color-primary);
+      cursor: pointer;
+      transition: all var(--transition-duration) ease;
+    }
+
+    .size-slider::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--color-primary);
+      cursor: pointer;
+      transition: all var(--transition-duration) ease;
+      border: none;
+    }
+
+    .size-slider::-webkit-slider-thumb:hover,
+    .size-slider::-moz-range-thumb:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 10px var(--color-shadow);
+    }
+
+    @media (max-width: 768px) {
+      .size-control {
+        bottom: calc(var(--spacing-lg) + 60px);
+        transform: translateX(-50%) scale(0.8);
+      }
+    }
   `],
   animations: [
     trigger('heroAnimation', [
@@ -349,7 +428,8 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
     mouseForce: { value: 0.0 },
     resolution: { value: new THREE.Vector2() },
     colorCycle: { value: 0.0 },
-    shapeType: { value: 0 }
+    shapeType: { value: 0 },
+    particleSize: { value: 1.0 }
   };
   
   animationState = 'in';
@@ -385,6 +465,8 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
   private isMobile = false;
   private readonly MOBILE_PARTICLE_COUNT = 500;
   private readonly DESKTOP_PARTICLE_COUNT = 2000;
+
+  particleSize: number = 1.0;
 
   ngOnInit() {
     this.checkDeviceType();
@@ -561,6 +643,7 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
       uniform vec2 resolution;
       uniform float colorCycle;
       uniform int shapeType;
+      uniform float particleSize;
       
       attribute float size;
       attribute vec3 aColor;
@@ -641,7 +724,7 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
         
         // Dynamic point size with distance and velocity factors
         float velocityFactor = length(velocity) * 50.0;
-        float pointSize = size * (300.0 / -mvPosition.z);
+        float pointSize = size * (300.0 / -mvPosition.z) * particleSize;
         pointSize *= (1.0 + force * 2.0 + velocityFactor);
         gl_PointSize = pointSize;
         
@@ -885,5 +968,12 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
     
     this.particleGeometry.setAttribute('aColor', new THREE.BufferAttribute(colors, 3));
     (this.particleGeometry.attributes['aColor'] as THREE.BufferAttribute).needsUpdate = true;
+  }
+
+  changeParticleSize(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.particleSize = parseFloat(input.value);
+    const material = this.particles.material as THREE.ShaderMaterial;
+    material.uniforms['particleSize'].value = this.particleSize;
   }
 }
