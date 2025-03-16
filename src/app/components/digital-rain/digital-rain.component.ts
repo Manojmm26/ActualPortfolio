@@ -114,7 +114,7 @@ import { FormsModule } from '@angular/forms';
       max-height: 90vh;
       overflow-y: auto;
       padding: 20px;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.18);
       border-radius: 8px;
     }
 
